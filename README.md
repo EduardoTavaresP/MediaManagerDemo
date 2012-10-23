@@ -1,9 +1,13 @@
-# GalleryDemo0
+# Media Manager Demo
 
-A simple web gallery demo using AppJs, along with the following:
+AppJs based Media Manager proof of concept / demo application. Implements a simple photo manager. Utilizes the the following:
 
-  * Uses require.js to load.
-  * Zurb Foundation3 shoulds its responsive and all the hyped up stuff.
+  * Zurb Foundation3 shoulds its responsive and all the hyped up stuff,
+  * [Entypo - 100+ carefully crafted pictograms](http://www.entypo.com/#top),
+  * Uses require.js to modularize JS and dynamically load,
+  * HAML / SCSS for HTML / CSS,
+  * Compass to compile your SASS,
+  * Ruby Rake / Sprockets to build / packages assets.
 
 ## Assets
 
