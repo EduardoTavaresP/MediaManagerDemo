@@ -1,0 +1,166 @@
+// You custom settings file to override Foundation defaults
+@import "settings";
+
+// Comment out this import if you are customizing you imports below
+@import "foundation";
+
+// ----------------------------------------
+// Import specific parts of Foundation by commenting the import "foundation"
+// and uncommenting what you want below. You must uncomment the following if customizing
+
+// @import "compass/css3";
+// @import "foundation/settings";
+// @import "foundation/functions/all";
+
+// Control which mixins you have access too
+
+// @import "foundation/mixins/clearfix";
+// @import "foundation/mixins/css-triangle";
+// @import "foundation/mixins/font-size";
+
+// Must include next two for semantic grid to work
+
+// @import "foundation/mixins/respond-to";
+// @import "foundation/mixins/semantic-grid";
+
+// @import "foundation/common/globals";
+// @import "modular-scale";
+
+// Must include the grid for any responsiveness
+
+// @import "foundation/components/grid";
+
+// Control which common styles get compiled
+
+// @import "foundation/common/typography";
+// @import "foundation/common/forms";
+
+// Control which components you get if customizing
+
+// @import "foundation/components/modules/buttons";
+// @import "foundation/components/modules/tabs";
+// @import "foundation/components/modules/ui";
+// @import "foundation/components/modules/topbar";
+// @import "foundation/components/modules/navbar";
+// @import "foundation/components/modules/orbit";
+// @import "foundation/components/modules/reveal";
+// @import "foundation/components/modules/offcanvas";
+
+@import "common";
+
+$font_family: "helvetica-neue";
+$font_filename: "helvetica-neue-webfont";
+$font_prefix: "/fonts/" + $font_family + "/" + $font_filename;
+// IE hack
+@font-face {
+  font-family: $font_family;
+  src: url($font_prefix + ".eot?") format("embedded-opentype");
+}
+
+// Everybody else
+@font-face {
+  font-family: $font_family;
+  src: local("☺"), url($font_prefix + ".woff") format("woff"), url($font_prefix + ".ttf") format("opentype"), url($font_prefix + ".eot"), url($font_prefix + ".svg#" + $font_filename + "'") format("svg");
+}
+
+@import "entypo";
+
+@import "nav";
+
+html, body {
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
+body {
+  background-color: $dark-bg-color;
+
+  header {
+    background-color: $header-bg-color;
+    height: $header-height;
+
+    nav.top-bar {
+      background-color: $header-bg-color;
+      margin: 0px 0px 0px $left-bar-width;
+
+      section {
+        li.top-nav-icon {
+          position: relative;
+
+          a:before {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+          }
+          a {
+            display: inline-block;
+
+            [class^="entypo-icon-"], [class*=" entypo-icon-"] {
+              font-size: ms(5);
+            }
+            img {
+              vertical-align: middle;
+            }
+          }
+        }
+      }
+    }    
+  }
+
+  #left-bar-collection {
+    background-color: $left-bar-bg-color;
+    width: $left-bar-width;
+
+    .side-nav {
+      a {
+        [class^="entypo-icon-"], [class*=" entypo-icon-"] {
+          font-size: ms(5);
+        }
+      }
+    }
+  }
+
+  section.container {
+    display: block;
+    position: absolute;
+    top: $header-height;
+    bottom: $footer-height;
+    left: $left-bar-width;
+    right: 0;
+    height: auto;
+    margin: 0px 0px 0px 0px;
+
+    div#content {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: auto;
+      background-color: $content-bg-color;
+      color: $light-gray-text;
+      font-family: 'helvetica-neue';
+
+      h1 {
+        font-style: bold;
+        font-size: ms(3);
+        color: $light-gray-text;
+        font-family: 'helvetica-neue';
+        text-align: center;
+      }
+      p {
+        text-align: center;
+      }
+    }
+  }
+
+  footer {
+    background-color: $footer-bg-color;
+    height: $footer-height;
+  }
+}
+

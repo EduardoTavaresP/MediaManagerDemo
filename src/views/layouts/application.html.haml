@@ -3,11 +3,42 @@
   %head
     %title
       = "Personal Life Manager | #{page}"
-    %meta{:charset => "utf-8"}
+    %meta{ :charset => "utf-8" }
+    %link{ :type => "text/css", :media => "all", :rel => "stylesheet", :href => "/css/application.css" }
+
   %body
     %header
+      %div#header-container.row.fixed
+        %nav{ :id => "top-nav", :class => "top-bar twelve columns", :role => "navigation" }
+          %ul#top-nav-bar
+            %li.name
+            %li.toggle-topbar
+          %section
+            %ul.left
+              %li#top-nav-dashboard.top-nav-icon.active
+                %a{ :href => "/" }
+                  %i.entypo-icon-th
+              %li#top-nav-mail.top-nav-icon
+                %a{ :href => "/coming-soon" }
+                  %i.entypo-icon-mail
+              %li#top-nav-contacts.top-nav-icon
+                %a{ :href => "/coming-soon" }
+                  %i.entypo-icon-calendar
+    %div#left-bar-collection
+      %ul.side-nav
+        %li.side-nav-home
+          %a{ :href => "/coming-soon" }
+            %i.entypo-icon-home
+        %li.side-nav-music
+          %a{ :href => "/coming-soon" }
+            %i.entypo-icon-music
+        %li.side-nav-photos
+          %a{ :href => "/photos" }
+            %i.entypo-icon-camera
     %section.container
       %div#content
         = yield
     %footer#footer
-      %div#footer-contents
+      %div#footer-container.row
+
+    %script{ :type => "text/javascript", :src => "/js/application.js" }

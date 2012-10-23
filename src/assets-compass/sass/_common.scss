@@ -1,0 +1,32 @@
+//
+// Color Palette
+//
+
+//
+// Basic colors
+//
+$dark-bg-color: #000000;
+$dark-gray-bg-color: #2a2a2a;
+$light-gray-text: #9c9ea1;
+$carolina-blue: #6ecff2;
+
+//
+// Site colors
+//
+$header-bg-color: $dark-bg-color;
+$left-bar-bg-color: $dark-bg-color;
+$content-bg-color: $dark-gray-bg-color;
+$footer-bg-color: $dark-bg-color;
+$nav-text-color: white;
+$nav-active-bg-color: $dark-gray-bg-color;
+$nav-active-text-color: $carolina-blue;
+$nav-hover-bg-color: $dark-gray-bg-color;
+$nav-hover-text-color: white;
+
+//
+// Dimensions
+//
+$header-height: 45px;
+$left-bar-width: 45px;
+$footer-height: 45px;
+

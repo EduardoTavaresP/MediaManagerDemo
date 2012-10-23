@@ -1,0 +1,42 @@
+//
+// Some overrides for Zurb navigation styles.
+//
+
+.top-bar ul > li a {
+  color: $nav-text-color;
+}
+
+.top-bar ul > li:hover {
+  background: $nav-hover-bg-color;
+
+  a {
+    color: $nav-hover-text-color;
+  }
+}
+.top-bar ul > li.active {
+  background: $nav-active-bg-color;
+
+  a {
+    color: $nav-active-text-color;
+  }
+}
+
+ul.side-nav > li a {
+  color: $nav-text-color;
+}
+
+ul.side-nav > li:hover {
+  background: $nav-hover-bg-color;
+
+  a {
+    color: $nav-hover-text-color;
+  }
+}
+ul.side-nav > li.active {
+  background: $nav-active-bg-color;
+
+  a {
+    color: $nav-active-text-color;
+  }
+}
+

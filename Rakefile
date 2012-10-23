@@ -26,8 +26,9 @@ end
 
 ROOT        = Pathname(File.dirname(__FILE__))
 LOGGER      = Logger.new(STDOUT)
-ASSET_BUNDLES     = %w( application.css )
-VIEWS = [ View.new('dashboard/show'), View.new('photo-manager/show', 'Photo Manager') ]
+ASSET_BUNDLES     = %w( application.css application.js )
+VIEWS = [ View.new('dashboard/show'), View.new('photo-manager/show', 'Photo Manager'), 
+          View.new('static-pages/coming-soon'), View.new('static-pages/coming-soon', 'Coming Soon') ]
 BUILD_DIR   = ROOT.join("assets")
 SOURCE_DIR  = ROOT.join("src")
 SOURCE_ASSETS_DIR  = ROOT.join(SOURCE_DIR, "assets")
@@ -39,22 +40,50 @@ task :compile => [:compile_assets, :compile_views ] do
 end
 
 task :compile_assets do
+
+  sh 'compass compile ./src/assets-compass'
+
   sprockets = Sprockets::Environment.new(ROOT) do |env|
     env.logger = LOGGER
   end
 
   sprockets.append_path(SOURCE_ASSETS_DIR.join('css').to_s)
+  sprockets.append_path(SOURCE_ASSETS_DIR.join('js').to_s)
+  sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs', 'jquery').to_s)
+  sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs', 'foundation').to_s)
 
   ASSET_BUNDLES.each do |bundle|
     assets = sprockets.find_asset(bundle)
-    prefix, basename = assets.pathname.to_s.split('/')[-2..-1]
-    FileUtils.mkpath BUILD_DIR.join(prefix)
+    tail = String.new(assets.pathname.to_s)
+    LOGGER.info("compile_assets: bundle path - #{tail}")
+    tail.slice!(SOURCE_ASSETS_DIR.to_s)
+    LOGGER.info("assets: tail - #{tail}")
+    pathParts = tail.split('/')
+    prefix = pathParts[0..-2]
+    basename = pathParts[-1]
+    LOGGER.info("tail - #{tail}, path parts - #{pathParts.to_s}, prefix - #{prefix.to_s}, basename - #{basename}")
+    FileUtils.mkpath BUILD_DIR.join(*prefix)
 
-    assets.write_to(BUILD_DIR.join(prefix, basename))
+    bundleFile = BUILD_DIR.join(*prefix)
+    bundleFile = bundleFile.join(basename)
+    LOGGER.info("compile_assets: Writing bundle to file - #{bundleFile}")
+    File.open(bundleFile, "w") { |f| f.write(assets.to_s()) }
     assets.to_a.each do |asset|
-      # strip filename.css.foo.bar.css multiple extensions
-      realname = asset.pathname.basename.to_s.split(".")[0..1].join(".")
-      asset.write_to(BUILD_DIR.join(prefix, realname))
+      LOGGER.info("compile_assets: Have asset - #{asset.pathname.to_s}, source assets dir - #{SOURCE_ASSETS_DIR.to_s}")
+
+      assetTail = String.new(asset.pathname.to_s)
+      assetTail.slice!(SOURCE_ASSETS_DIR.to_s)
+      pathParts = assetTail.split('/')
+      assetPrefix = pathParts[0..-2]
+      assetBasename = pathParts[-1]
+      FileUtils.mkpath BUILD_DIR.join(*assetPrefix)
+
+      assetFile = BUILD_DIR.join(*assetPrefix)
+      assetFile = assetFile.join(assetBasename)
+      if assetFile != bundleFile
+        LOGGER.info("compile_assets: Writing asset to file - #{assetFile}")
+        asset.write_to(assetFile)
+      end
     end
   end
 end

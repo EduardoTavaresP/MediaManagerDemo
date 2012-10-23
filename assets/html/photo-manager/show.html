@@ -5,16 +5,65 @@
       Personal Life Manager | photo-manager
     </title>
     <meta charset='utf-8' />
+    <link href='/css/application.css' media='all' rel='stylesheet' type='text/css' />
   </head>
   <body>
-    <header></header>
+    <header>
+      <div class='row fixed' id='header-container'>
+        <nav class='top-bar twelve columns' id='top-nav' role='navigation'>
+          <ul id='top-nav-bar'>
+            <li class='name'></li>
+            <li class='toggle-topbar'></li>
+          </ul>
+          <section>
+            <ul class='left'>
+              <li class='top-nav-icon active' id='top-nav-dashboard'>
+                <a href='/'>
+                  <i class='entypo-icon-th'></i>
+                </a>
+              </li>
+              <li class='top-nav-icon' id='top-nav-mail'>
+                <a href='/coming-soon'>
+                  <i class='entypo-icon-mail'></i>
+                </a>
+              </li>
+              <li class='top-nav-icon' id='top-nav-contacts'>
+                <a href='/coming-soon'>
+                  <i class='entypo-icon-calendar'></i>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </nav>
+      </div>
+    </header>
+    <div id='left-bar-collection'>
+      <ul class='side-nav'>
+        <li class='side-nav-home'>
+          <a href='/coming-soon'>
+            <i class='entypo-icon-home'></i>
+          </a>
+        </li>
+        <li class='side-nav-music'>
+          <a href='/coming-soon'>
+            <i class='entypo-icon-music'></i>
+          </a>
+        </li>
+        <li class='side-nav-photos'>
+          <a href='/photos'>
+            <i class='entypo-icon-camera'></i>
+          </a>
+        </li>
+      </ul>
+    </div>
     <section class='container'>
       <div id='content'>
         <p>This will organize ALL your photos.
       </div>
     </section>
     <footer id='footer'>
-      <div id='footer-contents'></div>
+      <div class='row' id='footer-container'></div>
     </footer>
+    <script src='/js/application.js' type='text/javascript'></script>
   </body>
 </html>
