@@ -20,15 +20,16 @@ class View
       @prettyName = prettyName if prettyName
     else
       @prettyName = @name
-    end 
+    end
   end
 end
 
 ROOT        = Pathname(File.dirname(__FILE__))
 LOGGER      = Logger.new(STDOUT)
-ASSET_BUNDLES     = %w( application.css application.js )
-VIEWS = [ View.new('dashboard/show'), View.new('photo-manager/show', 'Photo Manager'), 
-          View.new('static-pages/coming-soon'), View.new('static-pages/coming-soon', 'Coming Soon') ]
+ASSET_BUNDLES     = %w( application.css application.js photo-manager.js)
+VIEWS = [ View.new('dashboard/show', 'Dashboard'),
+          View.new('photo-manager/show', 'Photo Manager'),
+          View.new('static-pages/coming-soon', 'Coming Soon') ]
 BUILD_DIR   = ROOT.join("assets")
 SOURCE_DIR  = ROOT.join("src")
 SOURCE_ASSETS_DIR  = ROOT.join(SOURCE_DIR, "assets")
@@ -90,12 +91,17 @@ end
 
 task :compile_views do
   VIEWS.each do |view|
-    LOGGER.info("compile_views: Processing view - #{view.path}")
-    viewPath = SOURCE_DIR.join(SOURCE_VIEWS_DIR, view.path).to_s + '.html.haml'
-    output = render_view(viewPath, APPLICATION_LAYOUT, {}, { :page => view.name } )
-    outFile = BUILD_DIR.join('html', view.path).to_s + '.html'
-    LOGGER.info("compile_views: Writing result to - " + outFile)
-    File.open(outFile, "w") { |f| f.write(output) }
+      LOGGER.info("compile_views: Processing view - #{view.path}")
+      viewPath = SOURCE_DIR.join(SOURCE_VIEWS_DIR, view.path).to_s + '.html.haml'
+      output = render_view(viewPath,
+                           APPLICATION_LAYOUT,
+                           {},
+                           { :page => view.name,
+                             :view => view.name,
+                             :action => view.action } )
+      outFile = BUILD_DIR.join('html', view.path).to_s + '.html'
+      LOGGER.info("compile_views: Writing result to - " + outFile)
+      File.open(outFile, "w") { |f| f.write(output) }
   end
 end
 
@@ -106,6 +112,12 @@ end
 # Helpers to render partials and a view with a layout.
 # Based upon the excellent response found here: http://stackoverflow.com/questions/6125265/using-layouts-in-haml-files-independently-of-rails
 #
+
+#
+# Regions: Class to provide content_for method to be able to yield to a named region.
+#
+class Regions
+end
 
 def render(partial, locals = {})
 end

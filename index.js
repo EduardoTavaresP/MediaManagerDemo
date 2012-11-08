@@ -1,8 +1,17 @@
 var path = require('path');
+var _ = require('underscore');
+var mmApi = require('PLM/MediaManager/MediaManagerApi/lib/MediaManagerApiCore');
 var app = module.exports = require('appjs');
 
 var assetDir = __dirname + '/assets';
 app.serveFilesFrom(assetDir);
+
+app.router.get('/', function(req, res) {
+    var showPath = path.join(assetDir, '/html/dashboard/show.html');
+    console.log('index.js: Handling - GET /, path = ' + showPath);
+    res.sendFile(200, showPath);
+    console.log('index.js: Handled - GET /, status code = ' + res.statusCode);
+});
 
 app.router.get('/photos', function(req, res) {
     var showPath = path.join(assetDir, '/html/photo-manager/show.html');
@@ -10,6 +19,58 @@ app.router.get('/photos', function(req, res) {
     res.sendFile(200, showPath);
     console.log('index.js: Handled - GET /photos, status code = ' + res.statusCode);
 });
+
+//
+//  MediaManagerApiRouter: Sets up routing to resources for the Media Manager API.
+//
+var MediaManagerApiRouter = function() {
+
+  //
+  //  initialize: sets up all the routes. Invoked at the end of object construction.
+  //
+  this.initialize = function() {
+    var that = this;
+    console.log('index.js:MediaManagerApiRouter.initialize: initializing...');
+    _.each(_.values(this.resources), function(resource) {
+      //
+      //  index route (GET resource.path)
+      //
+      app.router.get(resource.path,
+                     function(req, res) {
+                       resource.doRequest('GET',
+                                          resource.path,
+                                          {onSuccess: that.genOnSuccess(resource, req, res),
+                                           onError: that.genOnError(resource, req, res)});
+                     });
+    });
+  };
+
+  this.resources = {
+    Images: new mmApi.Images('/api/media-manager/images')
+  };
+
+  this.genOnSuccess = function(resource, req, res) {
+    return function(responseBody) {
+      console.log('index.js: Handling - ' + req.method + ' ' + resource.path + ', response payload - ' + JSON.stringify(responseBody));
+      res.send(200,
+               'application/json',
+               JSON.stringify(responseBody));
+    };
+  };
+
+  this.genOnError = function(resource, req, res) {
+    return function(responseBody) {
+      console.log('index.js: Handling - ' + req.method + ' ' + resource.path + ', response payload - ' + JSON.stringify(responseBody));
+      res.send(responseBody.status,
+               'application/json',
+               JSON.stringify(responseBody));
+    };
+  };
+
+  this.initialize();
+};
+
+var mediaManagerApiRouter = new MediaManagerApiRouter();
 
 app.router.get('/coming-soon', function(req, res) {
     var showPath = path.join(assetDir, '/html/static-pages/coming-soon.html');

@@ -15,7 +15,7 @@
             %li.toggle-topbar
           %section
             %ul.left
-              %li#top-nav-dashboard.top-nav-icon.active
+              %li#top-nav-dashboard.top-nav-icon
                 %a{ :href => "/" }
                   %i.entypo-icon-th
               %li#top-nav-mail.top-nav-icon
@@ -36,9 +36,12 @@
           %a{ :href => "/photos" }
             %i.entypo-icon-camera
     %section.container
-      %div#content
+      %div{:id => 'content', :class => "#{view}"+ '/' + "#{action}"}
         = yield
     %footer#footer
       %div#footer-container.row
 
     %script{ :type => "text/javascript", :src => "/js/application.js" }
+    -#
+    -# Ultimately we want to yield using content_for for view specific JS.
+    -# = yield :view_specific_js
