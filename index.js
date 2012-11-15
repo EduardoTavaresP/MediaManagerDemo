@@ -1,3 +1,8 @@
+//
+//  PLM Media Manager Demo:
+//
+//    This is the main entry point.
+//
 var path = require('path');
 var _ = require('underscore');
 var mmApi = require('PLM/MediaManager/MediaManagerApi/lib/MediaManagerApiCore');
@@ -46,12 +51,13 @@ var MediaManagerApiRouter = function() {
   };
 
   this.resources = {
-    Images: new mmApi.Images('/api/media-manager/images')
+    Images: new mmApi.Images('/api/media-manager/v0/images', 
+                             {instName: 'image'})
   };
 
   this.genOnSuccess = function(resource, req, res) {
     return function(responseBody) {
-      console.log('index.js: Handling - ' + req.method + ' ' + resource.path + ', response payload - ' + JSON.stringify(responseBody));
+      console.log('index.js: Handling - ' + req.method + ' ' + resource.path + ', response payload of length - ' + JSON.stringify(responseBody).length);
       res.send(200,
                'application/json',
                JSON.stringify(responseBody));
