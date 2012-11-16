@@ -5,24 +5,52 @@
 //
 var path = require('path');
 var _ = require('underscore');
+var url = require('url');
 var mmApi = require('PLM/MediaManager/MediaManagerApi/lib/MediaManagerApiCore');
 var app = module.exports = require('appjs');
+//
+//  Decided to use the browserver-router, see: 
+//    * http://github.com/jed/browserver-router or
+//    *https://npmjs.org/package/browserver-router. 
+//  Reasons for using it:
+//    * With it we could instantiate a simple router, unlike Express, we would instantiate an
+//      'express server', which at a minimum feels odd even if it works.
+//    * The routing is based upon backbone.js's so it will be familiar territory if we use 
+//      that on the front end.
+//
+var Router = require('browserver-router');
 
 var assetDir = __dirname + '/assets';
 app.serveFilesFrom(assetDir);
 
-app.router.get('/', function(req, res) {
-    var showPath = path.join(assetDir, '/html/dashboard/show.html');
-    console.log('index.js: Handling - GET /, path = ' + showPath);
-    res.sendFile(200, showPath);
-    console.log('index.js: Handled - GET /, status code = ' + res.statusCode);
-});
+var router = Router({
+  '/': {
+    GET: function(req, res) {
+      var showPath = path.join(assetDir, '/html/dashboard/show.html');
+      console.log('index.js: Handling - GET /, path = ' + showPath);
+      res.sendFile(200, showPath);
+      console.log('index.js: Handled - GET /, status code = ' + res.statusCode);
+    }
+  },
 
-app.router.get('/photos', function(req, res) {
-    var showPath = path.join(assetDir, '/html/photo-manager/show.html');
-    console.log('index.js: Handling - GET /photos, path = ' + showPath);
-    res.sendFile(200, showPath);
-    console.log('index.js: Handled - GET /photos, status code = ' + res.statusCode);
+  '/photos': {
+    GET: function(req, res) {
+      var showPath = path.join(assetDir, '/html/photo-manager/show.html');
+      console.log('index.js: Handling - GET /photos, path = ' + showPath);
+      res.sendFile(200, showPath);
+      console.log('index.js: Handled - GET /photos, status code = ' + res.statusCode);
+    }
+  },
+
+  '/coming-soon': {
+    GET: function(req, res) {
+      var showPath = path.join(assetDir, '/html/static-pages/coming-soon.html');
+      console.log('index.js: Handling - GET /coming-soon, path = ' + showPath);
+      res.sendFile(404, showPath);
+      console.log('index.js: Handled - GET /coming-soon, status code = ' + res.statusCode);
+    }
+  }
+
 });
 
 //
@@ -37,16 +65,41 @@ var MediaManagerApiRouter = function() {
     var that = this;
     console.log('index.js:MediaManagerApiRouter.initialize: initializing...');
     _.each(_.values(this.resources), function(resource) {
+
       //
-      //  index route (GET resource.path)
+      //  Collection routes:
       //
-      app.router.get(resource.path,
-                     function(req, res) {
-                       resource.doRequest('GET',
-                                          resource.path,
-                                          {onSuccess: that.genOnSuccess(resource, req, res),
-                                           onError: that.genOnError(resource, req, res)});
-                     });
+      router.route(resource.path, {
+        //
+        //  index route (GET resource.path)
+        //
+        GET: function(req, res) {
+          var options = {
+            onSuccess: that.genOnSuccess(resource, req, res),
+            onError: that.genOnError(resource, req, res)
+          };
+          var parsedUrl = url.parse(req.originalUrl, true);
+          if (_.has(parsedUrl, 'query')) {
+            options['query'] = parsedUrl.query;
+          }
+          resource.doRequest('GET',
+                            options);
+        }
+      });
+      //
+      //  Singular instance routes:
+      //
+      router.route(resource.path + '/:resource_instance', {
+        //
+        //  read route (GET resource.path, where resource.path points to an instance)
+        //
+        GET: function(req, res) {
+          resource.doRequest('GET',
+                             {id: req.params[0],
+                              onSuccess: that.genOnSuccess(resource, req, res),
+                              onError: that.genOnError(resource, req, res)});
+        }
+      });
     });
   };
 
@@ -78,12 +131,25 @@ var MediaManagerApiRouter = function() {
 
 var mediaManagerApiRouter = new MediaManagerApiRouter();
 
-app.router.get('/coming-soon', function(req, res) {
-    var showPath = path.join(assetDir, '/html/static-pages/coming-soon.html');
-    console.log('index.js: Handling - GET /coming-soon, path = ' + showPath);
-    res.sendFile(404, showPath);
-    console.log('index.js: Handled - GET /coming-soon, status code = ' + res.statusCode);
-});
+//
+//  Make this fallback to the appjs router.
+//
+var fallbackHandler = app.router.handle;
+
+app.router.handle = function(req, res) {
+  var pat = /^\/(css)|(js)|(fonts)|(html)\/*$/;
+  if (req.pathname.match(pat)) {
+    console.log('index.js: Routing with appjs router for - ' + req.method + ' ' + req.url);
+    fallbackHandler.apply(app.router, arguments);
+  }
+  else {
+    req.method = req.method.toUpperCase();
+    req.originalUrl = req.url;
+    req.url = req.pathname;
+    console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
+    router.apply(router, arguments);
+  }
+};
 
 var window = app.createWindow({
     width: app.screenWidth(),

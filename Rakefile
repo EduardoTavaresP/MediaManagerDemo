@@ -52,6 +52,7 @@ task :compile_assets do
   sprockets.append_path(SOURCE_ASSETS_DIR.join('js').to_s)
   sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs', 'jquery').to_s)
   sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs', 'foundation').to_s)
+  sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs').to_s)
 
   ASSET_BUNDLES.each do |bundle|
     assets = sprockets.find_asset(bundle)
