@@ -6,7 +6,7 @@
 var path = require('path');
 var _ = require('underscore');
 var url = require('url');
-var mmApi = require('PLM/MediaManager/MediaManagerApi/lib/MediaManagerApiCore');
+var mmApi = require('MediaManagerApi/lib/MediaManagerApiCore');
 var app = module.exports = require('appjs');
 //
 //  Decided to use the browserver-router, see: 

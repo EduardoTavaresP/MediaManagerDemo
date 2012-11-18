@@ -41,7 +41,14 @@
     %footer#footer
       %div#footer-container.row
 
-    %script{ :type => "text/javascript", :src => "/js/application.js" }
+    %script{ :type => "text/javascript", :src => "/js/app/application.js" }
     -#
     -# Ultimately we want to yield using content_for for view specific JS.
     -# = yield :view_specific_js
+    -#
+    -# But, for now we will assume everything conforms to requirejs loading,
+    -# see: requirejs.org/docs/api.html#jsfiles
+    -#
+    %script{ "data-main" => "js/app/#{view}/main.js", :src => "/js/libs/require/require.js" }
+
+

@@ -26,7 +26,7 @@ end
 
 ROOT        = Pathname(File.dirname(__FILE__))
 LOGGER      = Logger.new(STDOUT)
-ASSET_BUNDLES     = %w( application.css application.js photo-manager.js)
+ASSET_BUNDLES     = %w( application.css application.js)
 VIEWS = [ View.new('dashboard/show', 'Dashboard'),
           View.new('photo-manager/show', 'Photo Manager'),
           View.new('static-pages/coming-soon', 'Coming Soon') ]
@@ -50,6 +50,7 @@ task :compile_assets do
 
   sprockets.append_path(SOURCE_ASSETS_DIR.join('css').to_s)
   sprockets.append_path(SOURCE_ASSETS_DIR.join('js').to_s)
+  sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'app').to_s)
   sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs', 'jquery').to_s)
   sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs', 'foundation').to_s)
   sprockets.append_path(SOURCE_ASSETS_DIR.join('js', 'libs').to_s)

@@ -19,7 +19,7 @@
       else if ($('#content').hasClass('photo-manager/show')) {
         console.log('PLM.NavManager.onReady: Active content - photo-manager/show');
         $('.side-nav-photos').addClass('active');
-        $.getScript('/js/photo-manager.js');
+        // $.getScript('/js/photo-manager.js');
       }
 
       //

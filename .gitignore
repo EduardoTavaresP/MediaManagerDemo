@@ -1,3 +1,5 @@
 .bundle
 bin
 node_modules
+src/assets-compass/.sass-cache
+
