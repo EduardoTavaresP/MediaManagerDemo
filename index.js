@@ -69,7 +69,8 @@ var MediaManagerApiRouter = function() {
       //
       //  Collection routes:
       //
-      router.route(resource.path, {
+      var collectionRegExp = new RegExp("^" + resource.path + "\/?$");
+      router.route(collectionRegExp, {
         //
         //  index route (GET resource.path)
         //

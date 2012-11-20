@@ -1,3 +1,13 @@
-<div>
-  <p>home sweet home template</p>
+<div id="recent-uploads">
+  <ul>
+    <% recentImages.each(function(recentImage){ %>
+      <li>
+        <% var thumbnail = _.first(_.filter(recentImage.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; })); %>
+        <% var foo = 'foo'; %>
+        <% if (_.has(thumbnail, 'url')) { %>
+          <img src='<%= thumbnail.url %>'/>
+        <% } %>
+      </li>
+    <% }); %>
+  </ul>
 </div>
