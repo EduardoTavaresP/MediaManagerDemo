@@ -26,7 +26,7 @@ end
 
 ROOT        = Pathname(File.dirname(__FILE__))
 LOGGER      = Logger.new(STDOUT)
-ASSET_BUNDLES     = %w( application.css application.js)
+ASSET_BUNDLES     = %w( application.css photo-manager.css application.js)
 VIEWS = [ View.new('dashboard/show', 'Dashboard'),
           View.new('photo-manager/show', 'Photo Manager'),
           View.new('static-pages/coming-soon', 'Coming Soon') ]

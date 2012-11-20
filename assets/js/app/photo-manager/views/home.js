@@ -4,9 +4,10 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'foundationClearing',
   'app/collections/recent-uploads',
   'text!/html/photo-manager/templates/home.html'],
-       function($, _, Backbone, RecentUploadsCollection, homeTemplate) {
+       function($, _, Backbone, FoundationClearing, RecentUploadsCollection, homeTemplate) {
          var HomeView = Backbone.View.extend({
 
            el: $('#content'),
@@ -45,6 +46,7 @@ define([
              var compiledTemplate = _.template(homeTemplate, { recentImages: this.recentUploads,
                                                                _: _ });
              this.$el.html(compiledTemplate);
+             $(document).foundationClearing();
            }
          });
 

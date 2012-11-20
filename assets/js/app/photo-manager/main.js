@@ -18,6 +18,7 @@ requirejs.config({
     jquery: 'jquery/jquery.min',
     underscore: 'underscore/underscore',
     backbone: 'backbone/backbone',
+    foundationClearing: 'foundation/jquery.foundation.clearing',
     app: '../app/photo-manager'
   },
   //
@@ -30,6 +31,9 @@ requirejs.config({
     backbone: {
       deps: ["underscore", "jquery"],
       exports: "Backbone"
+    },
+    foundationClearing: {
+      deps: ["jquery"]
     }
   }
 });
