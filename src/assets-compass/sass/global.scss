@@ -67,6 +67,12 @@ $font_prefix: "/fonts/" + $font_family + "/" + $font_filename;
 
 @import "nav";
 
+//
+// Font sizes
+//
+$font-size-ms0: ms(0);
+$font-size-ms1: ms(1);
+
 html, body {
   margin: 0px;
   border: 0px;

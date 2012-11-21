@@ -1,3 +1,6 @@
+// You custom settings file to override Foundation defaults
+@import "settings";
+@import "modular-scale";
 @import "common";
 
 $content-top-nav-height: 40px;
@@ -33,7 +36,7 @@ div#content {
       overflow-x: hidden;
 
       h1 {
-        margin-left: 30px;
+        margin: 10px 20px 10px 20px;
         text-align: left;
       }
 
@@ -44,12 +47,24 @@ div#content {
 
           ul {
             float: left;
+            margin: 10px 20px 10px 20px;
             white-space: nowrap;
 
             li {
               float: none;
               display: inline-block;
               position: static;
+              margin: 10px 10px 10px 10px;
+
+              p {
+                font-size: $baseFontSize;
+              }
+            }
+            li:first-child {
+              margin: 10px 10px 10px 0px;
+            }        
+            li:last-child {
+              margin: 10px 0px 10px 10px;
             }
           }
         }
@@ -68,7 +83,7 @@ div#content {
       overflow-x: scroll;
 
       h1 {
-        margin-left: 30px;
+        margin: 10px 20px 10px 20px;
         text-align: left;
       }
     }
