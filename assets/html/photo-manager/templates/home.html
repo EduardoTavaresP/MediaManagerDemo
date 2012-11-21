@@ -4,9 +4,9 @@
 <div id="recent-uploads">
   <div id="recent-uploads-inner">
     <h1>Recent Uploads</h1>
-    <ul class="row twelve columns" data-clearing="">
+    <ul data-clearing="">
       <% recentImages.each(function(recentImage){ %>
-        <li class="one columns">
+        <li>
           <% var thumbnail = _.first(_.filter(recentImage.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; })); %>
           <% var fullSmall = _.first(_.filter(recentImage.get('variants'), function(variant) { return variant.name === 'full-small.jpg'; })); %>
           <% var foo = 'foo'; %>
@@ -23,5 +23,7 @@
     <h1>Galleries</h1>
   </div>
 </div>
-<div id="content-bottom-bar" class="row twelve columns">
+<div id="content-bottom-bar" class="row">
+  <div id="content-bottom-bar-inner" class="row twelve columns">
+  </div>
 </div>

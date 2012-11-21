@@ -13,7 +13,7 @@ div#content #content-top-nav nav {
 div#content #recent-uploads {
   position: relative;
   top: 0px;
-  height: 40%;
+  height: 35%;
   background-color: #474747;
 }
 /* line 25, ../../assets-compass/sass/photo-manager.scss */
@@ -25,7 +25,7 @@ div#content #recent-uploads #recent-uploads-inner {
   left: 0;
   margin: 50px 10px 10px 10px;
   overflow-y: hidden;
-  overflow-x: scroll;
+  overflow-x: hidden;
 }
 /* line 35, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner h1 {
@@ -33,29 +33,51 @@ div#content #recent-uploads #recent-uploads-inner h1 {
   text-align: left;
 }
 /* line 41, ../../assets-compass/sass/photo-manager.scss */
+div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel {
+  padding-bottom: 20px;
+  overflow-x: scroll;
+}
+/* line 45, ../../assets-compass/sass/photo-manager.scss */
+div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel ul {
+  float: left;
+  white-space: nowrap;
+}
+/* line 49, ../../assets-compass/sass/photo-manager.scss */
+div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel ul li {
+  float: none;
+  display: inline-block;
+  position: static;
+}
+/* line 59, ../../assets-compass/sass/photo-manager.scss */
 div#content #galleries {
-  position: relative;
+  position: absolute;
   bottom: 0px;
+  height: 65%;
   background-color: #424242;
 }
-/* line 46, ../../assets-compass/sass/photo-manager.scss */
+/* line 65, ../../assets-compass/sass/photo-manager.scss */
 div#content #galleries #galleries-inner {
   margin: 10px 10px 10px 10px;
   overflow-y: hidden;
   overflow-x: scroll;
 }
-/* line 51, ../../assets-compass/sass/photo-manager.scss */
+/* line 70, ../../assets-compass/sass/photo-manager.scss */
 div#content #galleries #galleries-inner h1 {
   margin-left: 30px;
   text-align: left;
 }
-/* line 57, ../../assets-compass/sass/photo-manager.scss */
+/* line 76, ../../assets-compass/sass/photo-manager.scss */
 div#content #content-bottom-bar {
   position: fixed;
   top: none !important;
   bottom: 45px;
   left: 45px;
+  width: 100%;
   height: 40px;
   z-index: 1;
   background-color: #2a2a2a;
+  #content-bottom-bar-inner-position: relative;
+  #content-bottom-bar-inner-top: 0;
+  #content-bottom-bar-inner-bottom: 0;
+  #content-bottom-bar-inner-margin: 0px;
 }

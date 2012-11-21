@@ -19,7 +19,7 @@ div#content {
   #recent-uploads {
     position: relative;
     top: 0px;
-    height: 40%;
+    height: 35%;
     background-color: $content-lighter-bg-color;
 
     #recent-uploads-inner {
@@ -30,17 +30,36 @@ div#content {
       left: 0;
       margin: $recent-uploads-top-margin 10px 10px 10px;
       overflow-y: hidden;
-      overflow-x: scroll;
+      overflow-x: hidden;
 
       h1 {
         margin-left: 30px;
         text-align: left;
       }
+
+      div.clearing-assembled {
+        div.carousel {
+          padding-bottom: 20px;
+          overflow-x: scroll;
+
+          ul {
+            float: left;
+            white-space: nowrap;
+
+            li {
+              float: none;
+              display: inline-block;
+              position: static;
+            }
+          }
+        }
+      }
     }
   }
   #galleries {
-    position: relative;
+    position: absolute;
     bottom: 0px;
+    height: 65%;
     background-color: $content-bg-color;
 
     #galleries-inner {
@@ -59,8 +78,16 @@ div#content {
     top: none !important;
     bottom: $footer-height;
     left: $left-bar-width;
+    width: 100%;
     height: $content-bottom-bar-height;
     z-index: 1;
     background-color: $content-bottom-bar-bg-color;
+
+    #content-bottom-bar-inner: {
+      position: relative;
+      top: 0;
+      bottom: 0;
+      margin: 0px;
+    }
   }
 }
