@@ -6,8 +6,17 @@
 // Basic colors
 //
 $dark-bg-color: #000000;
-$dark-gray-bg-color: #2a2a2a;
+
+$darkest-gray-bg-color: #2a2a2a;
+$lighter1-gray-bg-color: #373737;
+$lighter2-gray-bg-color: #424242;
+$lighter3-gray-bg-color: #474747;
+$lighter4-gray-bg-color: #555555;
+$lightest-gray-bg-color: $lighter4-gray-bg-color;
 $light-gray-text: #9c9ea1;
+
+$dark-gray-bg-color: $lighter3-gray-bg-color;
+
 $carolina-blue: #6ecff2;
 
 //
@@ -15,12 +24,16 @@ $carolina-blue: #6ecff2;
 //
 $header-bg-color: $dark-bg-color;
 $left-bar-bg-color: $dark-bg-color;
-$content-bg-color: $dark-gray-bg-color;
+$content-top-nav-bg-color: $lighter1-gray-bg-color;
+$content-bg-color: $lighter2-gray-bg-color;
+$content-lighter-bg-color: $lighter3-gray-bg-color;
+$content-bottom-bar-bg-color: $darkest-gray-bg-color;
 $footer-bg-color: $dark-bg-color;
+
 $nav-text-color: white;
-$nav-active-bg-color: $dark-gray-bg-color;
+$nav-active-bg-color: $content-bg-color;
 $nav-active-text-color: $carolina-blue;
-$nav-hover-bg-color: $dark-gray-bg-color;
+$nav-hover-bg-color: $content-bg-color;
 $nav-hover-text-color: white;
 
 //

@@ -64,7 +64,7 @@
     $.fn.foundationTabs             ? $doc.foundationTabs({callback : $.foundation.customForms.appendCustomMarkup}) : null;
     $.fn.foundationTooltips         ? $doc.foundationTooltips() : null;
 
-    $('input, textarea').placeholder();
+    // $('input, textarea').placeholder();
 
     // Hide address bar on mobile devices
     if (Modernizr.touch) {

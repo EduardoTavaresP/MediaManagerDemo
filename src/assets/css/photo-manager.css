@@ -1,4 +1,61 @@
-/* line 1, ../../assets-compass/sass/photo-manager.scss */
-#recent-uploads {
+/* line 7, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav {
+  top: 45px;
+  left: 45px;
+  background-color: #373737;
+  z-index: 1;
+}
+/* line 13, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav nav {
+  height: 40px;
+}
+/* line 19, ../../assets-compass/sass/photo-manager.scss */
+div#content #recent-uploads {
+  position: relative;
+  top: 0px;
+  height: 40%;
+  background-color: #474747;
+}
+/* line 25, ../../assets-compass/sass/photo-manager.scss */
+div#content #recent-uploads #recent-uploads-inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 50px 10px 10px 10px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+/* line 35, ../../assets-compass/sass/photo-manager.scss */
+div#content #recent-uploads #recent-uploads-inner h1 {
+  margin-left: 30px;
+  text-align: left;
+}
+/* line 41, ../../assets-compass/sass/photo-manager.scss */
+div#content #galleries {
+  position: relative;
+  bottom: 0px;
+  background-color: #424242;
+}
+/* line 46, ../../assets-compass/sass/photo-manager.scss */
+div#content #galleries #galleries-inner {
   margin: 10px 10px 10px 10px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+/* line 51, ../../assets-compass/sass/photo-manager.scss */
+div#content #galleries #galleries-inner h1 {
+  margin-left: 30px;
+  text-align: left;
+}
+/* line 57, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-bottom-bar {
+  position: fixed;
+  top: none !important;
+  bottom: 45px;
+  left: 45px;
+  height: 40px;
+  z-index: 1;
+  background-color: #2a2a2a;
 }

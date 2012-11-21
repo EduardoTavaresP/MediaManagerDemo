@@ -6645,7 +6645,7 @@ table.hide-for-medium {
 
 /* line 9, ../../assets-compass/sass/_nav.scss */
 .top-bar ul > li:hover {
-  background: #2a2a2a;
+  background: #424242;
 }
 /* line 12, ../../assets-compass/sass/_nav.scss */
 .top-bar ul > li:hover a {
@@ -6654,7 +6654,7 @@ table.hide-for-medium {
 
 /* line 16, ../../assets-compass/sass/_nav.scss */
 .top-bar ul > li.active {
-  background: #2a2a2a;
+  background: #424242;
 }
 /* line 19, ../../assets-compass/sass/_nav.scss */
 .top-bar ul > li.active a {
@@ -6668,7 +6668,7 @@ ul.side-nav > li a {
 
 /* line 28, ../../assets-compass/sass/_nav.scss */
 ul.side-nav > li:hover {
-  background: #2a2a2a;
+  background: #424242;
 }
 /* line 31, ../../assets-compass/sass/_nav.scss */
 ul.side-nav > li:hover a {
@@ -6677,7 +6677,7 @@ ul.side-nav > li:hover a {
 
 /* line 35, ../../assets-compass/sass/_nav.scss */
 ul.side-nav > li.active {
-  background: #2a2a2a;
+  background: #424242;
 }
 /* line 38, ../../assets-compass/sass/_nav.scss */
 ul.side-nav > li.active a {
@@ -6732,12 +6732,13 @@ body header nav.top-bar section li.top-nav-icon a img {
 body #left-bar-collection {
   background-color: black;
   width: 45px;
+  z-index: 99;
 }
-/* line 118, ../../assets-compass/sass/global.scss */
+/* line 119, ../../assets-compass/sass/global.scss */
 body #left-bar-collection .side-nav a [class^="entypo-icon-"], body #left-bar-collection .side-nav a [class*=" entypo-icon-"] {
   font-size: 44px;
 }
-/* line 125, ../../assets-compass/sass/global.scss */
+/* line 126, ../../assets-compass/sass/global.scss */
 body section.container {
   display: block;
   position: absolute;
@@ -6748,7 +6749,7 @@ body section.container {
   height: auto;
   margin: 0px 0px 0px 0px;
 }
-/* line 135, ../../assets-compass/sass/global.scss */
+/* line 136, ../../assets-compass/sass/global.scss */
 body section.container div#content {
   display: block;
   position: absolute;
@@ -6758,11 +6759,11 @@ body section.container div#content {
   right: 0;
   width: 100%;
   height: auto;
-  background-color: #2a2a2a;
+  background-color: #424242;
   color: #9c9ea1;
   font-family: 'helvetica-neue';
 }
-/* line 148, ../../assets-compass/sass/global.scss */
+/* line 149, ../../assets-compass/sass/global.scss */
 body section.container div#content h1 {
   font-style: bold;
   font-size: 27px;
@@ -6770,11 +6771,11 @@ body section.container div#content h1 {
   font-family: 'helvetica-neue';
   text-align: center;
 }
-/* line 155, ../../assets-compass/sass/global.scss */
+/* line 156, ../../assets-compass/sass/global.scss */
 body section.container div#content p {
   text-align: center;
 }
-/* line 161, ../../assets-compass/sass/global.scss */
+/* line 162, ../../assets-compass/sass/global.scss */
 body footer {
   background-color: black;
   height: 45px;

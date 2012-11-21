@@ -112,6 +112,7 @@ body {
   #left-bar-collection {
     background-color: $left-bar-bg-color;
     width: $left-bar-width;
+    z-index: 99;
 
     .side-nav {
       a {

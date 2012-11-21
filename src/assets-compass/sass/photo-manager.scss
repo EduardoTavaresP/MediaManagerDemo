@@ -1,5 +1,66 @@
-#recent-uploads {
-  margin: 10px 10px 10px 10px;
-  ul {
+@import "common";
+
+$content-top-nav-height: 40px;
+$content-bottom-bar-height: 40px;
+
+div#content {
+  #content-top-nav {
+    top: $header-height;
+    left: $left-bar-width;
+    background-color: $content-top-nav-bg-color;
+    z-index: 1;
+
+    nav {
+      height: $content-top-nav-height;
+    }
+  }
+
+  $recent-uploads-top-margin: $content-top-nav-height + 10px;
+  #recent-uploads {
+    position: relative;
+    top: 0px;
+    height: 40%;
+    background-color: $content-lighter-bg-color;
+
+    #recent-uploads-inner {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: $recent-uploads-top-margin 10px 10px 10px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+
+      h1 {
+        margin-left: 30px;
+        text-align: left;
+      }
+    }
+  }
+  #galleries {
+    position: relative;
+    bottom: 0px;
+    background-color: $content-bg-color;
+
+    #galleries-inner {
+      margin: 10px 10px 10px 10px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+
+      h1 {
+        margin-left: 30px;
+        text-align: left;
+      }
+    }
+  }
+  #content-bottom-bar {
+    position: fixed;
+    top: none !important;
+    bottom: $footer-height;
+    left: $left-bar-width;
+    height: $content-bottom-bar-height;
+    z-index: 1;
+    background-color: $content-bottom-bar-bg-color;
   }
 }
