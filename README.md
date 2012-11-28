@@ -50,6 +50,10 @@ The assets directory is based upon the suggestion in http://backbonetutorials.co
     |   |     |-- photo-manager
     |   |     |      |-- main.js
     |   |     |      |-- app.js
+    |   |     |      |-- router.js
+    |   |     |      |-- models/
+    |   |     |      |-- collections/
+    |   |     |      |-- views/
     |   |
     |   |-- libs
     |   |     |-- require
@@ -184,6 +188,111 @@ The application HTML is in HAML and ass/ SASS (.scss), which are compiled via a 
 bundle install
 bundle exec rake complie
 `
+
+## Controllers and Dynamiicaly Loadable JavaScript
+
+We use require.js upon entry into a controller (sub-application) to dynamically load any JavaScript which is needed from that point onward.
+
+### Require.js and Bootstrapping a Controller
+
+If we look at the photo-manager, for example, we will see the following 2 files in /assets/js/app/photo-manager:
+
+  * /assets/js/app/photo-manager/main.js
+  * /assets/js/app/photo-manager/app.js
+
+/assets/js/app/photo-manager/main.js is our bootstrap file which defines the require.js configuration. Our application is aliased such that our app is loaded using the following snippet of code:
+
+```
+requirejs(['app/app'],
+          function(App) {
+            App.initialize();
+            });
+```
+
+The above triggers the execution of the exported initialize function in /assets/js/app/photo-manager/app.js.
+
+When creating a new controller, one will find the following two template files which can be copied to create a controller specific main.js and app.js:
+
+  * /src/assets/js/app/bootstrap.js: Copy this to make controller specific main.js which configures the sub-application.
+  * /src/assets/js/app/boilerplate.js: Copy this to make a controller specific app.js.
+
+### Leveraging Backbone.js
+
+If you want to use backbone.js in a controller (sub-application), the structure used in the photo-manager should be followed. /assets/js/app/photo-manager has the following sub-directories:
+
+  * /assets/js/app/photo-manager/models: Backbone models.
+  * /assets/js/app/photo-manager/collections: Backbone collections.
+  * /assets/js/app/photo-manager/views: Backbone views which may use dynamic templates. See Dynamic Underscore Templates.
+
+## Dynamic Underscore Templates
+
+Lets take a look at /assets/js/app/photo-manager/views/home.js. It is a backbone view. However, it dynamically loads a HTML text file using the require.js text plugin, and passes it into the function which executes to create the HomeView object. The following is a snippet of the code:
+
+```
+// Filename: photo-manager/views/home.js
+//
+define([
+  'jquery',
+  'underscore',
+  'backbone',
+  'foundationClearing',
+  'app/collections/recent-uploads',
+  'text!/html/photo-manager/templates/home.html'],
+       function($, _, Backbone, FoundationClearing, RecentUploadsCollection, homeTemplate) {
+         var HomeView = Backbone.View.extend({
+
+           el: $('#content'),
+           
+           initialize: function() {
+             this.recentUploads = new RecentUploadsCollection();
+           },
+
+           render: function() {
+             var that = this;
+             var onSuccess = function(recentUploads,
+                                      response,
+                                      options) {
+               console.log('photo-manager/views/home - successfully loaded recent uploads...');
+               that._doRender();
+             };
+             var onError = function(recentUploads, xhr, options) {
+               console.log('photo-manager/views/home - error loading recent uploads.');
+             };
+             this.recentUploads.fetch({success: onSuccess,
+                                       error: onError});
+           },
+
+           //
+           // _doRender: We have loaded the data, its safe to render.
+           //
+           _doRender: function() {
+             console.log('photo-manager/views/home._doRender: Will render ' + _.size(this.recentUploads) + ' images...');
+             this.recentUploads.each(function(image) {
+               console.log('photo-manager/views/home._doRender: Have image - ' + image.get('name'));
+               var variants = image.get('variants');
+               console.log('photo-manager/views/home._doRender: have ' + variants.length + ' variants...');
+               var filteredVariants = _.filter(image.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; });
+               console.log('photo-manager/views/home._doRender: have ' + filteredVariants.length + ' thumbnail variants...');
+             });
+             var compiledTemplate = _.template(homeTemplate, { recentImages: this.recentUploads,
+                                                               _: _ });
+             this.$el.html(compiledTemplate);
+             $(document).foundationClearing();
+           }
+         });
+
+         return HomeView;
+       });
+
+```
+
+The require.js text plugin is used to load a template. See: `'text!/html/photo-manager/templates/home.html'` in the 
+initial list of dependencies. The template is passed in as an argument as homeTemplate. It is latter compiled using 
+underscore's template method (`_.template(homeTemplate, ...)`).
+
+## index.js
+
+This is the main entry point into the application.
 
 ## Development Workflow
 
