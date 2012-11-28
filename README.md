@@ -11,9 +11,13 @@ AppJs based Media Manager proof of concept / demo application. Implements a simp
 
 ## Assets
 
-### Asset Directory Structure
+### /assets Directory
 
-Files are served from the /assets directory. The assets directory is based upon the suggestion in http://backbonetutorials.com/organizing-backbone-using-modules/. It has the following structure:
+All files are served from the /assets directory.
+
+#### Assets Directory Structure
+
+The assets directory is based upon the suggestion in http://backbonetutorials.com/organizing-backbone-using-modules/. It has the following structure:
 
     |- fonts
     |
@@ -31,6 +35,11 @@ Files are served from the /assets directory. The assets directory is based upon 
     |   |-- dashboard
     |   |
     |   |-- photo-manager
+    |   |     |
+    |   |     |--show.html
+    |   |     |--templates
+    |   |            |--home.html
+    |   |
     |   |-- static-pages
     |
     |- js
@@ -54,7 +63,13 @@ Files are served from the /assets directory. The assets directory is based upon 
 
 ### Source Assets
 
-We don't have an asset pipeline like in the Rails framework, for example. 
+We don't have an asset pipeline like in a web development framework such as Rails, Django, Symphony, etc.. Basically, any file which must be compiled has its source form somewhere in /src. This includes:
+
+  * HAML layouts and templates which get packaged into ONE HTML file.
+  * SASS stylesheets.
+  * JavaScript which is processed by Sprockets to get packaged into one deliverable asset.
+
+Note, this doesn't mean that EVERYTHING you edit is found in /src. Some assets are edited and checked into /assets a they do NOT need to be compiled or packaged in any way.
 
 Currently, our source assets are kept in 2 locations (unfortunately) under ./src:
 
@@ -138,3 +153,7 @@ The application HTML is in HAML and ass/ SASS (.scss), which are compiled via a 
 bundle install
 bundle exec rake complie
 `
+
+## Workflow
+
+## Getting up and Running
