@@ -328,3 +328,22 @@ If any data in /src is updated, one must run `bundle exec rake compile`.
 To start the application, simply run `./app.sh`.
 
 ## Getting up and Running
+
+To get a development instance of the application running one will first need to build the appjs framework, TouchDB, and . Then 
+clone this repository, and link it to your build of appjs. The appjs build will include a build of a 32 bit version 
+of node, which is currently a requirement due to chromium. See the AppJS documentation for details. To accomplish 
+have a working development version of this application, perform these steps:
+
+1. Create a parent directory do all this in and go there: `mkdir ./SetupAppTest; cd SetupAppTest/`
+1. Build AppJS:
+  * Clone our tools repo: `git clone 'https://github.com/jetsonsystems/AppJsTools.git'`
+  * Create a directory for the build: `mkdir ./mkdir appjs-build`
+  * Run the build script in the cloned repo which actually also clone's our fork of AppJs which fixes a minor bug (this may have been pulled back into the original repo, we shouild check): `./AppJsTools/bin/appjs-build.sh ./appjs-build/ &> appjs-build.log`.
+  * Ensure the previous step succeeded:
+    * There should be a working 32 bit node: ./appjs-build/appjs/node-32/0.8.11/bin/node, which can be run and verification `file ./appjs-build/appjs/node-32/0.8.11/bin/node` shouild produce: `
+./appjs-build/appjs/node-32/0.8.11/bin/node: Mach-O executable i386`.
+    * Run the sample app:
+1. Build TouchDB for iOS (https://github.com/couchbaselabs/TouchDB-iOS):
+1. Build GraphicsMagick (http://www.graphicsmagick.org/):
+1. Setup MediaManagerDemo:
+
