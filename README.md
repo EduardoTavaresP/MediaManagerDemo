@@ -74,8 +74,8 @@ Some assets need to be compiled and/or packaged. See Source Assets. Those asets 
   * /fonts
   * /imgs
   * /css/libs/*: These are external css libraries which might be leveraged.
-  * /html/\<controller\>/templates/<html template>
-  * /js/app/<controller>/*: All JavaScript for a particular controller (sub-application), is dynamically loaded and does not need packaging and deployment.
+  * /html/\<controller\>/templates/\<template\>.html: HTML snippets which are compiled using _.template. For example: /html/photo-manager/templates/home.html.
+  * /js/app/\<controller\>/*: All JavaScript for a particular controller (sub-application), is dynamically loaded and does not need packaging and deployment.
   * /js/libs/*: All external libs.
 
 #### Assets which are Compiled and/or Deployed
@@ -84,7 +84,7 @@ These assets should be edited in /src:
 
   * /css/application.css: A compiled package of lots of stuff we need.
   * /css/global.css: Compiled from sass.
-  * /html/<controller>/<action>.html
+  * /html/\<controller\>/<action>.html
   * /js/app/application.js
   * /js/app/global.js: Contains our global PLM object. Packaged into application.js. This should probably change to be dynamically loaded and ONLY live in /assets.
 
