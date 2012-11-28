@@ -74,7 +74,7 @@ Some assets need to be compiled and/or packaged. See Source Assets. Those asets 
   * /fonts
   * /imgs
   * /css/libs/*: These are external css libraries which might be leveraged.
-  * /html/<controller>/templates/<html template>
+  * /html/\<controller\>/templates/<html template>
   * /js/app/<controller>/*: All JavaScript for a particular controller (sub-application), is dynamically loaded and does not need packaging and deployment.
   * /js/libs/*: All external libs.
 
