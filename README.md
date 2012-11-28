@@ -48,18 +48,45 @@ The assets directory is based upon the suggestion in http://backbonetutorials.co
     |   |     |-- global.js
     |   |     |      
     |   |     |-- photo-manager
-    |   |     |      |- main.js
-    |   |     |      |- app.js
+    |   |     |      |-- main.js
+    |   |     |      |-- app.js
     |   |
     |   |-- libs
     |   |     |-- require
-    |   |     |      |- require.js
+    |   |     |      |-- require.js
     |   |     |
     |   |     |-- jquery
-    |   |     |      |- jquery.min.js
+    |   |     |      |-- jquery.min.js
     |   |     |
     |   |     |-- underscore
-    |   |     |      |- underscore.js
+    |   |     |      |-- underscore.js
+    |   |     |
+    |   |     |-- backbone
+    |   |     |      |-- backbone.js
+    |   |     |
+    |   |     |-- foundation
+    |   |     |      |-- jquery.foundation.*.js
+    
+#### Assets To Directly Deploy or Edit in /assets
+
+Some assets need to be compiled and/or packaged. See Source Assets. Those asets whill make their way into the /assets directly by running `bundle exec rake compile`. However, the following elements of /assets should be manually deployed or edited and checked in directly:
+
+  * /fonts
+  * /imgs
+  * /css/libs/*: These are external css libraries which might be leveraged.
+  * /html/<controller>/templates/<html template>
+  * /js/app/<controller>/*: All JavaScript for a particular controller (sub-application), is dynamically loaded and does not need packaging and deployment.
+  * /js/libs/*: All external libs.
+
+#### Assets which are Compiled and/or Deployed
+
+These assets should be edited in /src:
+
+  * /css/application.css: A compiled package of lots of stuff we need.
+  * /css/global.css: Compiled from sass.
+  * /html/<controller>/<action>.html
+  * /js/app/application.js
+  * /js/app/global.js: Contains our global PLM object. Packaged into application.js. This should probably change to be dynamically loaded and ONLY live in /assets.
 
 ### Source Assets
 
