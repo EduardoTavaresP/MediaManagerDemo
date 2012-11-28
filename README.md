@@ -78,15 +78,19 @@ Some assets need to be compiled and/or packaged. See Source Assets. Those asets 
   * /js/app/\<controller\>/*: All JavaScript for a particular controller (sub-application), is dynamically loaded and does not need packaging and deployment.
   * /js/libs/*: All external libs.
 
+See Development Workflow for details on developing the APP. 
+
 #### Assets which are Compiled and/or Deployed
 
 These assets should be edited in /src:
 
   * /css/application.css: A compiled package of lots of stuff we need.
   * /css/global.css: Compiled from sass.
-  * /html/\<controller\>/<action>.html
+  * /html/\<controller\>/\<action\>.html: This is the application layout (sass) along with the controller/action template (sass) which have been compiled using `bundle exec rake compile`.
   * /js/app/application.js
   * /js/app/global.js: Contains our global PLM object. Packaged into application.js. This should probably change to be dynamically loaded and ONLY live in /assets.
+
+See Development Workflow for details on developing the APP. 
 
 ### Source Assets
 
@@ -181,6 +185,37 @@ bundle install
 bundle exec rake complie
 `
 
-## Workflow
+## Development Workflow
+
+  * Deploy any of these assets directly into /assets:
+
+    * /assets/fonts/: Fonts.
+    * /assets/imgs/: Images
+    * /assets/css/libs/*: Any external CSS, each in their own sub-directory. Could be foundation or bootstrap, etc..
+    * /assets/js/app/\<controller\>/: All dynamically loadable JavaScript for a particular controller (sub-application). See Controllers and Dynamiicaly Loadable JavaScript.
+    * /assets/html/\<controller\>/templates/\<template\>.html: HTML snippets which are compiled using _.template. For example: /html/photo-manager/templates/home.html.
+    * /assets/js/libs/*: All external JavaScript plugins and libraries. 
+
+  * Edit any of these assets in ./src
+
+    * stylesheets which must be compiled and or packaged:
+    
+      * /src/assets/css/application.css: Are css manifest of anything which must be packged into ONE application level css.
+      * /src/assets-compass/sass/global.scss: SCSS styles for our overall layout any common stuff that needs to be accessible everywhere.
+      * /src/assets-compass/sass/\<controller\>.scss: SCSS styles for a particular controller. For example, /src/assets-compass/sass/photo-manager.scss.
+    
+    * javascript requiring packaging and deployment:
+    
+      * /src/assets/js/application.js
+      * /src/assets/js/global.js
+      
+    * global layouts and controller/action views:
+    
+      * /src/views/layouts/application.html.haml
+      * /src/views/layouts/\<controller\>/\<action view\>.html.haml
+
+If any data in /src is updated, one must run `bundle exec rake compile`.
+
+To start the application, simply run `./app.sh`.
 
 ## Getting up and Running
