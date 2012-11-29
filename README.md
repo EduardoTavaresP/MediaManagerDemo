@@ -356,6 +356,15 @@ pushd bin
 ln -s ../../appjs-build/appjs/node-32/0.8.11/bin/node .
 popd
 ln -s ../appjs-build/appjs/app/data/node_modules .
+popd
+</pre></code>
+  * Install some of the modules the APP needs: <code><pre>
+cd ./SetupAppTest
+git clone https://github.com/jetsonsystems/NodeExamples.git
+git clone https://github.com/jetsonsystems/MediaManager
+cd ./MediaManagerDemo
+../appjs-build/appjs/node-32/0.8.11/bin/npm install ../NodeExamples/ImageService/
+../appjs-build/appjs/node-32/0.8.11/bin/npm install ../MediaManager/MediaManagerApi/
 </pre></code>
 1. Setup and Populate TouchDB with Some Data
 1. Run the App
