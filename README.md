@@ -360,9 +360,11 @@ popd
 </pre></code>
   * Install some of the modules the APP needs: <code><pre>
 cd ./SetupAppTest
+git clone https://github.com/jetsonsystems/browserver-router
 git clone https://github.com/jetsonsystems/NodeExamples.git
 git clone https://github.com/jetsonsystems/MediaManager
 cd ./MediaManagerDemo
+../appjs-build/appjs/node-32/0.8.11/bin/npm install ../browserver-router/
 ../appjs-build/appjs/node-32/0.8.11/bin/npm install ../NodeExamples/ImageService/
 ../appjs-build/appjs/node-32/0.8.11/bin/npm install ../MediaManager/MediaManagerApi/
 </pre></code>
