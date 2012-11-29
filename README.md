@@ -343,7 +343,13 @@ have a working development version of this application, perform these steps:
     * There should be a working 32 bit node: ./appjs-build/appjs/node-32/0.8.11/bin/node, which can be run and verification `file ./appjs-build/appjs/node-32/0.8.11/bin/node` shouild produce: `
 ./appjs-build/appjs/node-32/0.8.11/bin/node: Mach-O executable i386`.
     * Run the sample app: `./appjs-build/appjs/app/app.sh` which shows a retro hello world image.
-1. Build TouchDB for iOS (https://github.com/couchbaselabs/TouchDB-iOS):
+1. Download TouchDB for iOS (https://github.com/couchbaselabs/TouchDB-iOS) and unpack it: `curl -O 'http://cloud.github.com/downloads/couchbaselabs/TouchDB-iOS/TouchDB-1.0.zip'`. Be patient, we'll use this in step 5.
 1. Build GraphicsMagick (http://www.graphicsmagick.org/):
+
+  * Download the source:
+  * Build and install:
+
 1. Setup MediaManagerDemo:
+1. Setup and Populate TouchDB with Some Data
+1. Run the App
 
