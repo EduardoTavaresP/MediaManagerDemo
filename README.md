@@ -346,14 +346,7 @@ have a working development version of this application, perform these steps:
 1. Download TouchDB for iOS (https://github.com/couchbaselabs/TouchDB-iOS) and unpack it: `curl -O 'http://cloud.github.com/downloads/couchbaselabs/TouchDB-iOS/TouchDB-1.0.zip'`. Be patient, we'll use this in step 5.
 1. Build GraphicsMagick (http://www.graphicsmagick.org/):
   * Download the source and untar: `curl -O 'http://iweb.dl.sourceforge.net/project/graphicsmagick/graphicsmagick/1.3.17/GraphicsMagick-1.3.17.tar.gz'`
-  * Build and install: ```
-  tar xzvf GraphicsMagick-1.3.17.tar.gz 
-  cd GraphicsMagick-1.3.17
-  ./configure CC=clang
-  make
-  sudo make install
-```
-. Note the use of CC=clang in the execution of configure. This is important, otherwise the build will fail on OSX.
+  * Build and install: `tar xzvf GraphicsMagick-1.3.17.tar.gz; cd GraphicsMagick-1.3.17; ./configure CC=clang; make; sudo make install`. Note the use of CC=clang in the execution of configure. This is important, otherwise the build will fail on OSX.
 1. Setup MediaManagerDemo:
   * Clone MediaManagerDemo:
 1. Setup and Populate TouchDB with Some Data
