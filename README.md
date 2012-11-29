@@ -386,9 +386,6 @@ read-some:      - file type = image/jpeg
 read-some:      - {"dev":234881027,"mode":33188,"nlink":1,"uid":501,"gid":20,"rdev":0,"blksize":4096,"ino":1870715,"size":1373002,"blocks":2688,"atime":"2012-11-21T23:35:18.000Z","mtime":"2011-12-21T17:29:22.000Z","ctime":"2012-01-09T18:51:51.000Z"}
 </pre></code>
   * Note, the above scans a hardcoded directory (see the importDir variable in the script) for image files, processes them and stores them in TouchDB. Note, this script will soon become obsolete. Hence, the hardcoded path.
-  * Run the Media Manager API to be able to query the API using the same endpoints as the APP: <code><pre>
-
-</pre></code>
   * For help in understanding the API one can run a Media Manager API server which talks to TouchDB: <code><pre>
 cd ./SetupAppTest/
 ./MediaManager/MediaManagerApi/bin/media_manager_api_server 
@@ -403,4 +400,6 @@ curl 'http://localhost:9000/v0/images/$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64'
     * Refer to the Media Manager API documentation: http://projects.jetsonsys.com/projects/plm-media-manager-web-api/wiki.
     * Note the server DOES NOT use the full URL path prefix of /api/media-manager/<version>, but just /<version>/<endpoint>, ie: /v0/images/. It is expected that the full path prefix from the documentation will be used in a production environment if needed.
 1. Run the App
-
+  * Run app.sh: `cd ./SetupAppTest/MediaManagerDemo; ./app.sh`
+  * Click on the camera icon and you should get a horizontal list of images.
+1. Everything here will likely change without notice.
