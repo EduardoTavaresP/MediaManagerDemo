@@ -388,6 +388,19 @@ read-some:      - {"dev":234881027,"mode":33188,"nlink":1,"uid":501,"gid":20,"rd
   * Note, the above scans a hardcoded directory (see the importDir variable in the script) for image files, processes them and stores them in TouchDB. Note, this script will soon become obsolete. Hence, the hardcoded path.
   * Run the Media Manager API to be able to query the API using the same endpoints as the APP: <code><pre>
 
-</pre></code>.
+</pre></code>
+  * For help in understanding the API one can run a Media Manager API server which talks to TouchDB: <code><pre>
+cd ./SetupAppTest/
+./MediaManager/MediaManagerApi/bin/media_manager_api_server 
+MediaManagerApiRouter.initialize: initializing...
+</pre></code>
+    * The server listens on port 9000.
+    * To get a list of ALL images in the DB: `curl 'http://localhost:9000/v0/images'
+    * Retrieves a single image: <code><pre>
+curl 'http://localhost:9000/v0/images/$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64'
+{"status":200,"image":{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"$ACF_0436.jpg","path":"/Users/marekjulian/Projects/Web-Sites/Assets/Irwin/winter/photos/galleries/3.2/Original/ACF_0436.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/ACF_0436.jpg","format":"JPEG","geometry":"3184x2120","size":{"height":2120,"width":3184},"depth":8,"filesize":"2.5M","checksum":"79e103baf1ef416e3ad8c7e2f5ccebb7","created_at":"2012-11-29T21:08:11.461Z","variants":[{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"full-small.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/full-small.jpg","size":90446,"created_at":"2012-11-29T21:14:09.686Z"},{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"web.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/web.jpg","size":27351,"created_at":"2012-11-29T21:14:09.686Z"},{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"thumbnail.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/thumbnail.jpg","size":1021,"created_at":"2012-11-29T21:14:09.686Z"}]}}drdc001:MediaManagerDemo marekjulian$ curl 'http://localhost:9000/v0/images'
+</pre></code>
+    * Refer to the Media Manager API documentation: http://projects.jetsonsys.com/projects/plm-media-manager-web-api/wiki.
+    * Note the server DOES NOT use the full URL path prefix of /api/media-manager/<version>, but just /<version>/<endpoint>, ie: /v0/images/. It is expected that the full path prefix from the documentation will be used in a production environment if needed.
 1. Run the App
 
