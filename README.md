@@ -350,13 +350,12 @@ have a working development version of this application, perform these steps:
 1. Setup MediaManagerDemo:
   * Clone MediaManagerDemo: `git clone https://github.com/jetsonsystems/MediaManagerDemo.git`
   * Link to your AppJs build:
-```cd MediaManagerDemo/
-mkdir bin
-pushd bin
-ln -s ../../appjs-build/appjs/node-32/0.8.11/bin/node .
-popd
-ln -s ../appjs-build/appjs/app/data/node_modules .
-```
+    cd MediaManagerDemo/
+    mkdir bin 
+    pushd bin
+    ln -s ../../appjs-build/appjs/node-32/0.8.11/bin/node .
+    popd
+    ln -s ../appjs-build/appjs/app/data/node_modules .
 1. Setup and Populate TouchDB with Some Data
 1. Run the App
 
