@@ -349,9 +349,14 @@ have a working development version of this application, perform these steps:
   * Build and install: `tar xzvf GraphicsMagick-1.3.17.tar.gz; cd GraphicsMagick-1.3.17; ./configure CC=clang; make; sudo make install`. Note the use of CC=clang in the execution of configure. This is important, otherwise the build will fail on OSX.
 1. Setup MediaManagerDemo:
   * Clone MediaManagerDemo: `git clone https://github.com/jetsonsystems/MediaManagerDemo.git`
-  * Link to your AppJs build: ```cd MediaManagerDemo/
+  * Link to your AppJs build:
+```cd MediaManagerDemo/
 mkdir bin
-pushd bin; ln -s ../../appjs-build/appjs/node-32/0.8.11/bin/node .; popd; ln -s ../appjs-build/appjs/app/data/node_modules .;`
+pushd bin
+ln -s ../../appjs-build/appjs/node-32/0.8.11/bin/node .
+popd
+ln -s ../appjs-build/appjs/app/data/node_modules .
+```
 1. Setup and Populate TouchDB with Some Data
 1. Run the App
 
