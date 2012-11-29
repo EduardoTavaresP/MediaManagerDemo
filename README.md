@@ -376,18 +376,16 @@ cd ./MediaManagerDemo
   * Create a new DB (the name is currently hardcoded in the APP): `curl -X PUT 'http://localhost:59840/plm-media-manager-test0'`
   * If the above was NOT the first time, and you want to clear out the DB and then create a new one, just delete it: `curl -X DELETE 'http://localhost:59840/plm-media-manager-test0'`.
   * Populate the DB with some image data so the Media Manager API functions: <code><pre>
-
-  cd ./SetupAppTest/NodeExamples
-  git pull origin master
-  cd Utils/
-  node ./store-images.js
+cd ./SetupAppTest/NodeExamples
+git pull origin master
+cd Utils/
+node ./store-images.js
   
 store-images: done
 read-some: file - /Users/marekjulian/Projects/Web-Sites/Assets/Irwin/winter/photos/galleries/Irwin Randonae Race/Bona T 10.jpg
 read-some:      - file type = image/jpeg
 read-some:      - {"dev":234881027,"mode":33188,"nlink":1,"uid":501,"gid":20,"rdev":0,"blksize":4096,"ino":1870715,"size":1373002,"blocks":2688,"atime":"2012-11-21T23:35:18.000Z","mtime":"2011-12-21T17:29:22.000Z","ctime":"2012-01-09T18:51:51.000Z"}
-
-</pre></code>. 
+</pre></code>
   * Note, the above scans a hardcoded directory (see the importDir variable in the script) for image files, processes them and stores them in TouchDB. Note, this script will soon become obsolete. Hence, the hardcoded path.
   * Run the Media Manager API to be able to query the API using the same endpoints as the APP: <code><pre>
 
