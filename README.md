@@ -348,8 +348,15 @@ have a working development version of this application, perform these steps:
   * Download the source and untar: `curl -O 'http://iweb.dl.sourceforge.net/project/graphicsmagick/graphicsmagick/1.3.17/GraphicsMagick-1.3.17.tar.gz'`
   * Build and install:
 ```
-```
+  tar xzvf GraphicsMagick-1.3.17.tar.gz 
+  cd GraphicsMagick-1.3.17
+  ./configure CC=clang
+  make
+  sudo make install
+
+```. Note the use of CC=clang in the execution of configure. This is important, otherwise the build will fail on OSX.
 1. Setup MediaManagerDemo:
+  * Clone MediaManagerDemo:
 1. Setup and Populate TouchDB with Some Data
 1. Run the App
 
