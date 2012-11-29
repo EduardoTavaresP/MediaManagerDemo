@@ -380,7 +380,6 @@ cd ./SetupAppTest/NodeExamples
 git pull origin master
 cd Utils/
 node ./store-images.js
-  
 store-images: done
 read-some: file - /Users/marekjulian/Projects/Web-Sites/Assets/Irwin/winter/photos/galleries/Irwin Randonae Race/Bona T 10.jpg
 read-some:      - file type = image/jpeg
