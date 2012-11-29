@@ -335,7 +335,7 @@ of node, which is currently a requirement due to chromium. See the AppJS documen
 have a working development version of this application, perform these steps:
 
 1. Create a parent directory do all this in and go there: `mkdir ./SetupAppTest; cd SetupAppTest/`
-1. Build AppJS:
+1. Build AppJS in SetupAppTest:
   * Clone our tools repo: `git clone 'https://github.com/jetsonsystems/AppJsTools.git'`
   * Create a directory for the build: `mkdir ./mkdir appjs-build`
   * Run the build script in the cloned repo which actually also clone's our fork of AppJs which fixes a minor bug (this may have been pulled back into the original repo, we shouild check): `./AppJsTools/bin/appjs-build.sh ./appjs-build/ &> appjs-build.log`.
@@ -344,16 +344,17 @@ have a working development version of this application, perform these steps:
 ./appjs-build/appjs/node-32/0.8.11/bin/node: Mach-O executable i386`.
     * Run the sample app: `./appjs-build/appjs/app/app.sh` which shows a retro hello world image.
 1. Download TouchDB for iOS (https://github.com/couchbaselabs/TouchDB-iOS) and unpack it: `curl -O 'http://cloud.github.com/downloads/couchbaselabs/TouchDB-iOS/TouchDB-1.0.zip'`. Be patient, we'll use this in step 5.
-1. Build GraphicsMagick (http://www.graphicsmagick.org/):
+1. Build GraphicsMagick (http://www.graphicsmagick.org/) in SetupAppTest:
   * Download the source and untar: `curl -O 'http://iweb.dl.sourceforge.net/project/graphicsmagick/graphicsmagick/1.3.17/GraphicsMagick-1.3.17.tar.gz'`
   * Build and install: `tar xzvf GraphicsMagick-1.3.17.tar.gz; cd GraphicsMagick-1.3.17; ./configure CC=clang; make; sudo make install`. Note the use of CC=clang in the execution of configure. This is important, otherwise the build will fail on OSX.
 1. Setup MediaManagerDemo:
-  * Clone MediaManagerDemo: `git clone https://github.com/jetsonsystems/MediaManagerDemo.git`
+  * In SetupAppTest clone MediaManagerDemo: `git clone https://github.com/jetsonsystems/MediaManagerDemo.git`
   * Link to your AppJs build: <code><pre>
 cd MediaManagerDemo/
 mkdir bin 
 pushd bin
 ln -s ../../appjs-build/appjs/node-32/0.8.11/bin/node .
+ln -s ../../appjs-build/appjs/app/data/bin/Contents .
 popd
 ln -s ../appjs-build/appjs/app/data/node_modules .
 popd
@@ -368,6 +369,9 @@ cd ./MediaManagerDemo
 ../appjs-build/appjs/node-32/0.8.11/bin/npm install ../NodeExamples/ImageService/
 ../appjs-build/appjs/node-32/0.8.11/bin/npm install ../MediaManager/MediaManagerApi/
 </pre></code>
+  * The app should now be runnable: ./app.sh, but will have no database nor data in the database to access.
 1. Setup and Populate TouchDB with Some Data
+  * In SetupAppTest/MediaManagerDemo/bin create a link to TouchDB: `ln -s ../../TouchDB-1.0/MacOS/TouchServ .`.
+  * TouchDB can now be started: `cd ..; ./bin/TouchServ`. It will be listening on port 59840 as opposed to the default CouchDB port. In the future, the APP will automatically manage starting and monitoring the TouchDB process. Also, we may look into embedding TouchDB perhaps via https://github.com/TooTallNate/NodObjC (but that would be a significant effort).
 1. Run the App
 
