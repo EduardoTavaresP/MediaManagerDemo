@@ -381,8 +381,7 @@ cd ./MediaManagerDemo
   ln -s ~/Library/Developer/Xcode/DerivedData/MediaManagerTouchServ-epksriervtouqsddxpivmdimsxvi/Build/Products/Debug/MediaManagerTouchServer.app/Contents/MacOS/MediaManagerTouchServ .
 </pre></code>
   * TouchDB can now be started: `cd ..; ./bin/MediaManagerTouchServ`. It will be listening on port 59840 as opposed to the default CouchDB port. In the future, the APP will automatically manage starting and monitoring the TouchDB process. Also, we may look into embedding TouchDB perhaps via https://github.com/TooTallNate/NodObjC (but that would be a significant effort).
-  * Create a new DB (the name is currently hardcoded in the APP): `curl -X PUT 'http://localhost:59840/plm-media-manager-test0'`
-  * If the above was NOT the first time, and you want to clear out the DB and then create a new one, just delete it: `curl -X DELETE 'http://localhost:59840/plm-media-manager-test0'`.
+  * No need to worry about creating DBs or anything. MediaManagerTouchServ creates a DB on startup if it doesn't exist. It basically embeds and manages TouchDB.
   * Populate the DB with some image data so the Media Manager API functions: <code><pre>
 cd ./SetupAppTest/NodeExamples
 git pull origin master
