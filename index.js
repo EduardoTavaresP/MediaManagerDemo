@@ -6,11 +6,22 @@
 var path = require('path');
 var _ = require('underscore');
 var url = require('url');
+
+//
+//  Init the application which implies starting TouchDB.
+//
+var app = require('MediaManagerAppSupport').init();
+
+app.on('localStorageExit', function() {
+    console.log('index.js: Local storage sub-process has exited. APP will now shut down.');
+    process.exit(-1);
+});
+
 var mmApi = require('MediaManagerApi/lib/MediaManagerApiCore');
 mmApi.config({dbHost: 'localhost',
               dbPort: '59840',
               dbName: 'plm-media-manager-test0'});
-var app = module.exports = require('appjs');
+var appjs = module.exports = require('appjs');
 //
 //  Decided to use the browserver-router, see: 
 //    * http://github.com/jed/browserver-router or
@@ -24,7 +35,7 @@ var app = module.exports = require('appjs');
 var Router = require('browserver-router');
 
 var assetDir = __dirname + '/assets';
-app.serveFilesFrom(assetDir);
+appjs.serveFilesFrom(assetDir);
 
 var router = Router({
   '/': {
@@ -138,13 +149,13 @@ var mediaManagerApiRouter = new MediaManagerApiRouter();
 //
 //  Make this fallback to the appjs router.
 //
-var fallbackHandler = app.router.handle;
+var fallbackHandler = appjs.router.handle;
 
-app.router.handle = function(req, res) {
+appjs.router.handle = function(req, res) {
   var pat = /^\/(css)|(js)|(fonts)|(html)\/*$/;
   if (req.pathname.match(pat)) {
     console.log('index.js: Routing with appjs router for - ' + req.method + ' ' + req.url);
-    fallbackHandler.apply(app.router, arguments);
+    fallbackHandler.apply(appjs.router, arguments);
   }
   else {
     req.method = req.method.toUpperCase();
@@ -155,9 +166,9 @@ app.router.handle = function(req, res) {
   }
 };
 
-var window = app.createWindow({
-    width: app.screenWidth(),
-    height: app.screenHeight(),
+var window = appjs.createWindow({
+    width: appjs.screenWidth(),
+    height: appjs.screenHeight(),
     resizable: true
 });
 
