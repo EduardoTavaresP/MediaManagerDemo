@@ -23,10 +23,11 @@ app.on('localStorageExit', function() {
     process.exit(-1);
 });
 
+var config = require('MediaManagerAppConfig');
 var mmApi = require('MediaManagerApi/lib/MediaManagerApiCore');
 mmApi.config({dbHost: 'localhost',
-              dbPort: '59840',
-              dbName: 'plm-media-manager-test0'});
+              dbPort: config.db.local.port,
+              dbName: config.db.database});
 var appjs = module.exports = require('appjs');
 //
 //  Decided to use the browserver-router, see: 

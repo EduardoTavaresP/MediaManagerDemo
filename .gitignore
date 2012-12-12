@@ -2,5 +2,7 @@
 bin
 node_modules
 src/assets-compass/.sass-cache
-TouchDB-0.981
+MediaManagerTouchServer.app/
+*~
+
 
