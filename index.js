@@ -3,6 +3,12 @@
 //
 //    This is the main entry point.
 //
+
+process.on('uncaughtException', function(err) {
+    console.log('index.js: Uncaught exception - ' + err);
+    process.exit(-1);
+});
+
 var path = require('path');
 var _ = require('underscore');
 var url = require('url');
@@ -223,5 +229,7 @@ window.on('ready', function(){
 });
 
 window.on('close', function(){
-  console.log("index.js: Window Closed");
+    console.log("index.js: Window Closed");
+    app.shutdown();
 });
+
