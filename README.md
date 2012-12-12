@@ -364,16 +364,27 @@ popd
 ln -s ../appjs-build/appjs/app/data/node_modules .
 popd
 </pre></code>
+  * Ensure you have npm linked:
+<code><pre>
+cd ./MediaManagerDemo/bin
+ln -s ../../appjs-build/appjs/node-32/0.8.11/bin/npm .
+</pre></code>
   * Install some of the modules the APP needs: <code><pre>
 cd ./SetupAppTest
 git clone https://github.com/jetsonsystems/browserver-router
-git clone https://github.com/jetsonsystems/NodeExamples.git
 git clone https://github.com/jetsonsystems/MediaManager
 cd ./MediaManagerDemo
-../appjs-build/appjs/node-32/0.8.11/bin/npm install ../browserver-router/
-../appjs-build/appjs/node-32/0.8.11/bin/npm install ../NodeExamples/ImageService/
-../appjs-build/appjs/node-32/0.8.11/bin/npm install ../MediaManager/MediaManagerApi/
+./bin/node ./bin/npm install ../browserver-router/
+./bin/node ./bin/npm install ../MediaManager/ImageService/
+./bin/node ./bin/npm install ../MediaManager/ImageService/ -g
+./bin/node ./bin/npm install ../MediaManager/MediaManagerApi/
+./bin/node ./bin/npm install ../MediaManager/MediaManagerApi/ -g
+./bin/node ./bin/npm install ../MediaManager/MediaManagerAppConfig/
+./bin/node ./bin/npm install ../MediaManager/MediaManagerAppConfig/ -g
+./bin/node ./bin/npm install ../MediaManager/MediaManagerAppSupport
+./bin/node ./bin/npm install ../MediaManager/MediaManagerAppSupport -g
 </pre></code>
+  * Note, all of the above are installed with and without -g. ONLY the install with -g should be necessary. Something needs to be fixed here.
   * The app should now be runnable: ./app.sh, but will have no database nor data in the database to access.
 1. Setup and Populate TouchDB with Some Data
   * In SetupAppTest/MediaManagerDemo, copy the MediaManagerTouchServer.app application bundle:
