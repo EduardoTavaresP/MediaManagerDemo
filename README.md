@@ -376,11 +376,11 @@ cd ./MediaManagerDemo
 </pre></code>
   * The app should now be runnable: ./app.sh, but will have no database nor data in the database to access.
 1. Setup and Populate TouchDB with Some Data
-  * In SetupAppTest/MediaManagerDemo/bin create a link to TouchDB which you previous built. The link will look something like this:
+  * In SetupAppTest/MediaManagerDemo, copy the MediaManagerTouchServer.app application bundle:
 <code><pre>
-  ln -s ~/Library/Developer/Xcode/DerivedData/MediaManagerTouchServ-epksriervtouqsddxpivmdimsxvi/Build/Products/Debug/MediaManagerTouchServer.app/Contents/MacOS/MediaManagerTouchServ .
+cp -rf ~/Library/Developer/Xcode/DerivedData/MediaManagerTouchServ-adxjaraiqypfqveowopnbajovuqp/Build/Products/Debug/MediaManagerTouchServer.app ./MediaManagerTouchServer.app
 </pre></code>
-  * TouchDB can now be started: `cd ..; ./bin/MediaManagerTouchServ`. It will be listening on port 59840 as opposed to the default CouchDB port. In the future, the APP will automatically manage starting and monitoring the TouchDB process. Also, we may look into embedding TouchDB perhaps via https://github.com/TooTallNate/NodObjC (but that would be a significant effort).
+  * MediaManagerTouchServer runs TouchDB. The APP will automaticall start it. It will be a sub-process which listens on port 59840 as opposed to the default CouchDB port. Also, we may look into embedding TouchDB perhaps via https://github.com/TooTallNate/NodObjC (but that would be a significant effort).
   * No need to worry about creating DBs or anything. MediaManagerTouchServ creates a DB on startup if it doesn't exist. It basically embeds and manages TouchDB.
   * Populate the DB with some image data so the Media Manager API functions: <code><pre>
 cd ./SetupAppTest/NodeExamples
