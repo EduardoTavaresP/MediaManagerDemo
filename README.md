@@ -411,15 +411,22 @@ store-images: About to save 1 images...
 .
 </pre></code>
   * Note, the above scans a directory, ../TestData which was provided on the command line for images. Of course, provide your own directory which contains images. JPG/JPEG images have been successfully imported.
+  * Also, you need to run the above while the APP is running such that MediaManagerTouchServer.app is up and running (TouchDB is up and listening on port 59840).
 1. Query the MediaManagerAPI and TouchDB via CURL and media_manager_api_server
-  * For help in understanding the API one can run a Media Manager API server which talks to TouchDB: <code><pre>
-cd ./SetupAppTest/
-./MediaManager/MediaManagerApi/bin/media_manager_api_server 
+  * For help in understanding the API one can run a Media Manager API server which talks to MediaManagerTouchServer and TouchDB: <code><pre>
+cd ./SetupAppTest/MediaManagerDemo
+./bin/node ./bin/media_manager_api_server -p 59840 9000 plm-media-manager
+/MediaManager/MediaManagerApi/lib/MediaManagerApiCore.: Using ImageService version - 0.0.2
+[Error: dlopen(/Users/marekjulian/Projects/PLM/MediaManager/DeskTopApp/AppJsMediaManagerDemo/MediaManagerDemo/lib/node_modules/MediaManagerApi/node_modules/restify/node_modules/dtrace-provider/build/Release/DTraceProviderBindings.node, 1): no suitable image found.  Did find:
+ /Users/marekjulian/Projects/PLM/MediaManager/DeskTopApp/AppJsMediaManagerDemo/MediaManagerDemo/lib/node_modules/MediaManagerApi/node_modules/restify/node_modules/dtrace-provider/build/Release/DTraceProviderBindings.node: mach-o, but wrong architecture]
+/MediaManager/MediaManagerApi/lib/MediaManagerApiCore.Images.initialize: Initialized, path - /v0/images, name - images, instance name - image
+/MediaManager/MediaManagerApi/lib/MediaManagerApiCore.Images.initialize: Desired full form attributes - ["id","name","path","import_root_dir","disposition","url","format","geometry","size","depth","filesize","checksum","taken_at","created_at","variants"]
+/MediaManager/MediaManagerApi/lib/MediaManagerApiCore.Images.initialize: Desired short form attributes - ["id","name","url","geometry","size","filesize","taken_at","created_at","variants"]
 MediaManagerApiRouter.initialize: initializing...
 </pre></code>
     * The server listens on port 9000.
     * To get a list of ALL images in the DB: `curl 'http://localhost:9000/v0/images'
-    * Retrieves a single image: <code><pre>
+    * Retrieve a single image (use an ID from the results of the previous call): <code><pre>
 curl 'http://localhost:9000/v0/images/$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64'
 {"status":200,"image":{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"$ACF_0436.jpg","path":"/Users/marekjulian/Projects/Web-Sites/Assets/Irwin/winter/photos/galleries/3.2/Original/ACF_0436.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/ACF_0436.jpg","format":"JPEG","geometry":"3184x2120","size":{"height":2120,"width":3184},"depth":8,"filesize":"2.5M","checksum":"79e103baf1ef416e3ad8c7e2f5ccebb7","created_at":"2012-11-29T21:08:11.461Z","variants":[{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"full-small.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/full-small.jpg","size":90446,"created_at":"2012-11-29T21:14:09.686Z"},{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"web.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/web.jpg","size":27351,"created_at":"2012-11-29T21:14:09.686Z"},{"id":"$ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64","name":"thumbnail.jpg","url":"http://localhost:59840/plm-media-manager-test0/ff76f2856bc89aad4501b7e1fa1fe87f61bb7d64/thumbnail.jpg","size":1021,"created_at":"2012-11-29T21:14:09.686Z"}]}}drdc001:MediaManagerDemo marekjulian$ curl 'http://localhost:9000/v0/images'
 </pre></code>
