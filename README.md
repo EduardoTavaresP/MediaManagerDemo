@@ -392,19 +392,28 @@ cp -rf ~/Library/Developer/Xcode/DerivedData/MediaManagerTouchServ-adxjaraiqypfq
 </pre></code>
     * MediaManagerTouchServer runs TouchDB. The APP will automaticall start it. It will be a sub-process which listens on port 59840 as opposed to the default CouchDB port. Also, we may look into embedding TouchDB perhaps via https://github.com/TooTallNate/NodObjC (but that would be a significant effort).
     * No need to worry about creating DBs or anything. MediaManagerTouchServ creates a DB on startup if it doesn't exist. It basically embeds and manages TouchDB.
-  * The app should now be runnable: ./app.sh, but will have no data in the database to access. If you click the camera, you will get a "Recent Images" pane with no data.
-1. Setup and Populate TouchDB with Some Data
-  * Populate the DB with some image data so the Media Manager API functions: <code><pre>
-cd ./SetupAppTest/NodeExamples
-git pull origin master
-cd Utils/
-node ./store-images.js
+  * The app should now be runnable: ./app.sh, but will have no data in the database to access. If you click the camera, you will get a "Recent Uploads" pane with no data.
+1. Populate TouchDB with Some Data
+  * Populate the DB with some image data so the Media Manager API returns something useful: <code><pre>
+cd ./SetupAppTest/MediaManagerDemo
+./bin/node ./bin/store-images -p 59840 plm-media-manager ../TestData/
+store-images: about to look for files in - ../TestData/
 store-images: done
-read-some: file - /Users/marekjulian/Projects/Web-Sites/Assets/Irwin/winter/photos/galleries/Irwin Randonae Race/Bona T 10.jpg
+read-some: have file - /Users/marekjulian/Projects/PLM/MediaManager/DeskTopApp/AppJsMediaManagerDemo/TestData/L1000735.jpg
+read-some: file - /Users/marekjulian/Projects/PLM/MediaManager/DeskTopApp/AppJsMediaManagerDemo/TestData/L1000735.jpg
 read-some:      - file type = image/jpeg
-read-some:      - {"dev":234881027,"mode":33188,"nlink":1,"uid":501,"gid":20,"rdev":0,"blksize":4096,"ino":1870715,"size":1373002,"blocks":2688,"atime":"2012-11-21T23:35:18.000Z","mtime":"2011-12-21T17:29:22.000Z","ctime":"2012-01-09T18:51:51.000Z"}
+read-some:      - {"dev":234881026,"mode":33188,"nlink":1,"uid":501,"gid":20,"rdev":0,"blksize":4096,"ino":9222538,"size":2509945,"blocks":4904,"atime":"2012-12-12T22:18:11.000Z","mtime":"2012-11-30T19:20:13.000Z","ctime":"2012-11-30T19:20:13.000Z"}
+read-some: Have 1 files.
+store-images: saving more...
+store-images: About to save 1 images...
+
+.
+.
+.
+
 </pre></code>
-  * Note, the above scans a hardcoded directory (see the importDir variable in the script) for image files, processes them and stores them in TouchDB. Note, this script will soon become obsolete. Hence, the hardcoded path.
+  * Note, the above scans a directory, ../TestData which was provided on the command line for images. Of course, provide your own directory which contains images. JPG/JPEG images have been successfully imported.
+1. Query the MediaManagerAPI and TouchDB via CURL and media_manager_api_server
   * For help in understanding the API one can run a Media Manager API server which talks to TouchDB: <code><pre>
 cd ./SetupAppTest/
 ./MediaManager/MediaManagerApi/bin/media_manager_api_server 
