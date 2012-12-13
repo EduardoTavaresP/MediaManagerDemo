@@ -374,6 +374,7 @@ cd ./SetupAppTest
 git clone https://github.com/jetsonsystems/browserver-router
 git clone https://github.com/jetsonsystems/MediaManager
 cd ./MediaManagerDemo
+./bin/node ./bin/npm install underscore
 ./bin/node ./bin/npm install ../browserver-router/
 ./bin/node ./bin/npm install ../MediaManager/ImageService/
 ./bin/node ./bin/npm install ../MediaManager/ImageService/ -g
