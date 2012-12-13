@@ -406,11 +406,9 @@ read-some:      - {"dev":234881026,"mode":33188,"nlink":1,"uid":501,"gid":20,"rd
 read-some: Have 1 files.
 store-images: saving more...
 store-images: About to save 1 images...
-
 .
 .
 .
-
 </pre></code>
   * Note, the above scans a directory, ../TestData which was provided on the command line for images. Of course, provide your own directory which contains images. JPG/JPEG images have been successfully imported.
 1. Query the MediaManagerAPI and TouchDB via CURL and media_manager_api_server
