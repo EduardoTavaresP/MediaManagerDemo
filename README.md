@@ -385,14 +385,14 @@ cd ./MediaManagerDemo
 ./bin/node ./bin/npm install ../MediaManager/MediaManagerAppSupport
 ./bin/node ./bin/npm install ../MediaManager/MediaManagerAppSupport -g
 </pre></code>
-  * Note, all of the above are installed with and without -g. ONLY the install with -g should be necessary. Something needs to be fixed here.
-  * Now, make sure to copy MediaManagerTouchServer.app (the TouchDB Server application bundle you previously built). In SetupAppTest/MediaManagerDemo, copy the MediaManagerTouchServer.app application bundle:
+    * Note, all of the above are installed with and without -g. ONLY the install with -g should be necessary. Something needs to be fixed here.
+  * Now, make sure to copy MediaManagerTouchServer.app (the TouchDB Server application bundle you previously built):
 <code><pre>
 cp -rf ~/Library/Developer/Xcode/DerivedData/MediaManagerTouchServ-adxjaraiqypfqveowopnbajovuqp/Build/Products/Debug/MediaManagerTouchServer.app ./MediaManagerTouchServer.app
 </pre></code>
-  * MediaManagerTouchServer runs TouchDB. The APP will automaticall start it. It will be a sub-process which listens on port 59840 as opposed to the default CouchDB port. Also, we may look into embedding TouchDB perhaps via https://github.com/TooTallNate/NodObjC (but that would be a significant effort).
-  * No need to worry about creating DBs or anything. MediaManagerTouchServ creates a DB on startup if it doesn't exist. It basically embeds and manages TouchDB.
-  * The app should now be runnable: ./app.sh, but will have no database nor data in the database to access.
+    * MediaManagerTouchServer runs TouchDB. The APP will automaticall start it. It will be a sub-process which listens on port 59840 as opposed to the default CouchDB port. Also, we may look into embedding TouchDB perhaps via https://github.com/TooTallNate/NodObjC (but that would be a significant effort).
+    * No need to worry about creating DBs or anything. MediaManagerTouchServ creates a DB on startup if it doesn't exist. It basically embeds and manages TouchDB.
+  * The app should now be runnable: ./app.sh, but will have no data in the database to access. If you click the camera, you will get a "Recent Images" pane with no data.
 1. Setup and Populate TouchDB with Some Data
   * Populate the DB with some image data so the Media Manager API functions: <code><pre>
 cd ./SetupAppTest/NodeExamples
