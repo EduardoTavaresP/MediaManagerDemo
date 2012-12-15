@@ -93,6 +93,34 @@ var MediaManagerApiRouter = function() {
       var collectionRegExp = new RegExp("^" + resource.path + "\/?$");
       router.route(collectionRegExp, {
         //
+        //  create route (POST resource.path)
+        //
+        POST: function(req, res) {
+          var options = {
+            onSuccess: that.genOnSuccess(resource, req, res),
+            onError: that.genOnError(resource, req, res)
+          };
+          var parsedUrl = url.parse(req.originalUrl, true);
+          if (_.has(parsedUrl, 'query')) {
+            options['query'] = parsedUrl.query;
+          }
+          //
+          //  Need to populate attr with the request body.
+          //
+          try {
+            options.attr = JSON.parse(req.payload);
+          }
+          catch (err) {
+            //
+            // Nuke attr to indicate we do NOT have a valid JSON payload.
+            //
+            options.attr = undefined;
+            delete options.attr;
+          }
+          resource.doRequest('POST',
+                             options);
+        },
+        //
         //  index route (GET resource.path)
         //
         GET: function(req, res) {
@@ -127,7 +155,9 @@ var MediaManagerApiRouter = function() {
 
   this.resources = {
     Images: new mmApi.Images('/api/media-manager/v0/images', 
-                             {instName: 'image'})
+                             {instName: 'image'}),
+    Importers: new mmApi.Importers('/api/media-manager/v0/importers', 
+                                   {instName: 'importer'})
   };
 
   this.genOnSuccess = function(resource, req, res) {
@@ -168,8 +198,22 @@ appjs.router.handle = function(req, res) {
     req.method = req.method.toUpperCase();
     req.originalUrl = req.url;
     req.url = req.pathname;
-    console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
-    router.apply(router, arguments);
+    if (req.method === 'POST')  {
+      var savedArgs = arguments;
+
+      req.payload = "";
+      req.addListener('data', function(chunk) {
+        req.payload = req.payload + chunk;
+      });
+      req.addListener('end', function() {
+        console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
+        router.apply(router, arguments);
+      });
+    }
+    else {
+      console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
+      router.apply(router, arguments);
+    }
   }
 };
 
