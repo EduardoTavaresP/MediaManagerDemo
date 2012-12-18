@@ -11,23 +11,7 @@ process.on('uncaughtException', function(err) {
 
 var path = require('path');
 var _ = require('underscore');
-var url = require('url');
 
-//
-//  Init the application which implies starting TouchDB.
-//
-var app = require('MediaManagerAppSupport').init();
-
-app.on('localStorageExit', function() {
-    console.log('index.js: Local storage sub-process has exited. APP will now shut down.');
-    process.exit(-1);
-});
-
-var config = require('MediaManagerAppConfig');
-var mmApi = require('MediaManagerApi/lib/MediaManagerApiCore');
-mmApi.config({dbHost: 'localhost',
-              dbPort: config.db.local.port,
-              dbName: config.db.database});
 var appjs = module.exports = require('appjs');
 //
 //  Decided to use the browserver-router, see: 
@@ -75,113 +59,15 @@ var router = Router({
 });
 
 //
-//  MediaManagerApiRouter: Sets up routing to resources for the Media Manager API.
+//  Init the application which implies starting TouchDB.
 //
-var MediaManagerApiRouter = function() {
+var app = require('MediaManagerAppSupport').init(router);
+var querystring = require('querystring');
 
-  //
-  //  initialize: sets up all the routes. Invoked at the end of object construction.
-  //
-  this.initialize = function() {
-    var that = this;
-    console.log('index.js:MediaManagerApiRouter.initialize: initializing...');
-    _.each(_.values(this.resources), function(resource) {
-
-      //
-      //  Collection routes:
-      //
-      var collectionRegExp = new RegExp("^" + resource.path + "\/?$");
-      router.route(collectionRegExp, {
-        //
-        //  create route (POST resource.path)
-        //
-        POST: function(req, res) {
-          var options = {
-            onSuccess: that.genOnSuccess(resource, req, res),
-            onError: that.genOnError(resource, req, res)
-          };
-          var parsedUrl = url.parse(req.originalUrl, true);
-          if (_.has(parsedUrl, 'query')) {
-            options['query'] = parsedUrl.query;
-          }
-          //
-          //  Need to populate attr with the request body.
-          //
-          try {
-            options.attr = JSON.parse(req.payload);
-          }
-          catch (err) {
-            //
-            // Nuke attr to indicate we do NOT have a valid JSON payload.
-            //
-            options.attr = undefined;
-            delete options.attr;
-          }
-          resource.doRequest('POST',
-                             options);
-        },
-        //
-        //  index route (GET resource.path)
-        //
-        GET: function(req, res) {
-          var options = {
-            onSuccess: that.genOnSuccess(resource, req, res),
-            onError: that.genOnError(resource, req, res)
-          };
-          var parsedUrl = url.parse(req.originalUrl, true);
-          if (_.has(parsedUrl, 'query')) {
-            options['query'] = parsedUrl.query;
-          }
-          resource.doRequest('GET',
-                            options);
-        }
-      });
-      //
-      //  Singular instance routes:
-      //
-      router.route(resource.path + '/:resource_instance', {
-        //
-        //  read route (GET resource.path, where resource.path points to an instance)
-        //
-        GET: function(req, res) {
-          resource.doRequest('GET',
-                             {id: req.params[0],
-                              onSuccess: that.genOnSuccess(resource, req, res),
-                              onError: that.genOnError(resource, req, res)});
-        }
-      });
-    });
-  };
-
-  this.resources = {
-    Images: new mmApi.Images('/api/media-manager/v0/images', 
-                             {instName: 'image'}),
-    Importers: new mmApi.Importers('/api/media-manager/v0/importers', 
-                                   {instName: 'importer'})
-  };
-
-  this.genOnSuccess = function(resource, req, res) {
-    return function(responseBody) {
-      console.log('index.js: Handling - ' + req.method + ' ' + resource.path + ', response payload of length - ' + JSON.stringify(responseBody).length);
-      res.send(200,
-               'application/json',
-               JSON.stringify(responseBody));
-    };
-  };
-
-  this.genOnError = function(resource, req, res) {
-    return function(responseBody) {
-      console.log('index.js: Handling - ' + req.method + ' ' + resource.path + ', response payload - ' + JSON.stringify(responseBody));
-      res.send(responseBody.status,
-               'application/json',
-               JSON.stringify(responseBody));
-    };
-  };
-
-  this.initialize();
-};
-
-var mediaManagerApiRouter = new MediaManagerApiRouter();
+app.on('localStorageExit', function() {
+    console.log('index.js: Local storage sub-process has exited. APP will now shut down.');
+    process.exit(-1);
+});
 
 //
 //  Make this fallback to the appjs router.
@@ -199,16 +85,13 @@ appjs.router.handle = function(req, res) {
     req.originalUrl = req.url;
     req.url = req.pathname;
     if (req.method === 'POST')  {
-      var savedArgs = arguments;
-
-      req.payload = "";
-      req.addListener('data', function(chunk) {
-        req.payload = req.payload + chunk;
-      });
-      req.addListener('end', function() {
-        console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
-        router.apply(router, arguments);
-      });
+      console.log('index.js: Received request - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl + ', headers - ' + JSON.stringify(req.headers) + ', post - ' + req.post() + ', data - ' + JSON.stringify(req.data));
+      //
+      //  Currently, cannot add listeners to get data. Data must be sent as URL encoded query args, and is then available via req.data.
+      //  So, at least for now, the post code, is the same as the get code, but this will probably change.
+      //
+      console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
+      router.apply(router, arguments);
     }
     else {
       console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);

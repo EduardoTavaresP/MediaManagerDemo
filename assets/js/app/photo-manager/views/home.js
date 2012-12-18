@@ -46,6 +46,24 @@ define([
              var compiledTemplate = _.template(homeTemplate, { recentImages: this.recentUploads,
                                                                _: _ });
              this.$el.html(compiledTemplate);
+             $('#content-top-nav a.import').click(function(el) {
+               console.log('photo-manager/views/home - clicked import!');
+               $.ajax({url: 'http://appjs/api/media-manager/v0/importers',
+                       type: 'POST',
+                       // contentType: 'application/json',
+                       data: {
+                         "import_dir": "/Users/marekjulian/PLM/import"
+                       },
+                       // processData: false,
+                       success: function(data, textStatus, jqXHR) {
+                         console.log('photo-manager/views/home._doRender: import success!');
+                         console.log('  num to import - ' + data.num_to_import);
+                       },
+                       error: function() {
+                         console.log('photo-manager/views/home._doRender: import request error!');
+                       }
+                      });
+             });
              $(document).foundationClearing();
            }
          });
