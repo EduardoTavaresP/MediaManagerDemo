@@ -85,7 +85,7 @@ appjs.router.handle = function(req, res) {
     req.originalUrl = req.url;
     req.url = req.pathname;
     if (req.method === 'POST')  {
-      console.log('index.js: Received request - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl + ', headers - ' + JSON.stringify(req.headers) + ', post - ' + req.post() + ', data - ' + JSON.stringify(req.data));
+      console.log('index.js: Received request - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl + ', headers - ' + JSON.stringify(req.headers) + ', post - ' + JSON.stringify(req.post) + ', body - ' + JSON.stringify(req.body));
       //
       //  Currently, cannot add listeners to get data. Data must be sent as URL encoded query args, and is then available via req.data.
       //  So, at least for now, the post code, is the same as the get code, but this will probably change.
