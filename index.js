@@ -13,22 +13,18 @@ var path = require('path');
 var _ = require('underscore');
 
 var appjs = module.exports = require('appjs');
-//
-//  Decided to use the browserver-router, see: 
-//    * http://github.com/jed/browserver-router or
-//    *https://npmjs.org/package/browserver-router. 
-//  Reasons for using it:
-//    * With it we could instantiate a simple router, unlike Express, we would instantiate an
-//      'express server', which at a minimum feels odd even if it works.
-//    * The routing is based upon backbone.js's so it will be familiar territory if we use 
-//      that on the front end.
-//
-var Router = require('browserver-router');
 
 var assetDir = __dirname + '/assets';
 appjs.serveFilesFrom(assetDir);
 
-var router = Router({
+//
+//  Define routes for various paths. Note, based upon the browserver router
+//  we are using, ie:
+//
+//    * http://github.com/jed/browserver-router or
+//    * https://npmjs.org/package/browserver-router. 
+//
+var routes = {
   '/': {
     GET: function(req, res) {
       var showPath = path.join(assetDir, '/html/dashboard/show.html');
@@ -55,50 +51,18 @@ var router = Router({
       console.log('index.js: Handled - GET /coming-soon, status code = ' + res.statusCode);
     }
   }
-
-});
+};
 
 //
 //  Init the application which implies starting TouchDB.
 //
-var app = require('MediaManagerAppSupport').init(router);
+var app = require('MediaManagerAppSupport').init(appjs, routes);
 var querystring = require('querystring');
 
 app.on('localStorageExit', function() {
     console.log('index.js: Local storage sub-process has exited. APP will now shut down.');
     process.exit(-1);
 });
-
-//
-//  Make this fallback to the appjs router.
-//
-var fallbackHandler = appjs.router.handle;
-
-appjs.router.handle = function(req, res) {
-  var pat = /^\/(css)|(js)|(fonts)|(html)\/*$/;
-  if (req.pathname.match(pat)) {
-    console.log('index.js: Routing with appjs router for - ' + req.method + ' ' + req.url);
-    fallbackHandler.apply(appjs.router, arguments);
-  }
-  else {
-    req.method = req.method.toUpperCase();
-    req.originalUrl = req.url;
-    req.url = req.pathname;
-    if (req.method === 'POST')  {
-      console.log('index.js: Received request - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl + ', headers - ' + JSON.stringify(req.headers) + ', post - ' + req.post() + ', data - ' + JSON.stringify(req.data));
-      //
-      //  Currently, cannot add listeners to get data. Data must be sent as URL encoded query args, and is then available via req.data.
-      //  So, at least for now, the post code, is the same as the get code, but this will probably change.
-      //
-      console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
-      router.apply(router, arguments);
-    }
-    else {
-      console.log('index.js: Routing with browserver-router for - ' + req.method + ' ' + req.url + ', original url - ' + req.originalUrl);
-      router.apply(router, arguments);
-    }
-  }
-};
 
 var window = appjs.createWindow({
     width: appjs.screenWidth(),
