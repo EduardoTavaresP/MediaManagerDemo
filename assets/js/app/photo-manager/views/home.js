@@ -1,5 +1,6 @@
 // Filename: photo-manager/views/home.js
 //
+// var WebSocket = require('MediaManagerApi/lib/NotificationsWsLike');
 define([
   'jquery',
   'underscore',
@@ -8,6 +9,9 @@ define([
   'app/collections/recent-uploads',
   'text!/html/photo-manager/templates/home.html'],
        function($, _, Backbone, FoundationClearing, RecentUploadsCollection, homeTemplate) {
+
+         var ws = undefined;
+
          var HomeView = Backbone.View.extend({
 
            el: $('#content'),
@@ -23,6 +27,7 @@ define([
                                       options) {
                console.log('photo-manager/views/home - successfully loaded recent uploads...');
                that._doRender();
+               // that._respondToEvents();
              };
              var onError = function(recentUploads, xhr, options) {
                console.log('photo-manager/views/home - error loading recent uploads.');
@@ -64,8 +69,71 @@ define([
                        }
                       });
              });
-             $(document).foundationClearing();
+             $('#content-top-nav a.sync').click(function(el) {
+               console.log('photo-manager/views/home - clicked sync!');
+               $.ajax({url: 'http://appjs/api/media-manager/v0/storage/synchronizers',
+                       type: 'POST',
+                       contentType: 'application/json',
+                       data: "",
+                       processData: false,
+                       success: function(data, textStatus, jqXHR) {
+                         console.log('photo-manager/views/home._doRender: sync triggered...');
+                       },
+                       error: function() {
+                         console.log('photo-manager/views/home._doRender: sync request error!');
+                       }
+                      });
+             });
+             if (_.size(this.recentUploads)) {
+               $(document).foundationClearing();
+             }
+           },
+
+           //
+           // _respondToEvents: Opens a WS and listens to messages, adjusting the view as necessary.
+           //
+           _respondToEvents: function() {
+             console.log('photo-manager/views/home._respondToEvents - Creating web-socket...');
+             ws = new WebSocket('ws://appjs/notifications');
+
+             function isConnectionEstablished(parsedMsg) {
+               return (parsedMsg.resource === '/notifications' && parsedMsg.event === 'connection.established');
+             };
+
+             function isSyncStarted(parsedMsg) {
+               return (parsedMsg.resource === '/storage/synchronizers' && parsedMsg.event === 'sync.started');
+             };
+             
+             function isSyncCompleted(parsedMsg) {
+               return (parsedMsg.resource === '/storage/synchronizers' && parsedMsg.event === 'sync.completed');
+             };
+
+             function doSubscriptions(ws) {
+               console.log('photo-manager/views/home._respondToEvents - Subscribing to notification events');
+               ws.send(JSON.stringify({
+                 "resource": "_client", 
+                 "event": "subscribe",
+                 "data": {
+                   "resource": "/storage/synchronizers" 
+                 }}));
+               console.log('photo-manager/views/home._respondToEvents - Subscribed to notification events');
+             };
+
+             ws.onmessage = function(msg) {
+               console.log('photo-manager/views/home._respondToEvents - ' + msg.data);
+               var parsedMsg = JSON.parse(msg.data);
+               if (isConnectionEstablished(parsedMsg)) {
+                 doSubscriptions(ws);
+               }
+               else if (isSyncStarted(parsedMsg)) {
+                 console.log('photo-manager/views/home._respondToEvents - sync started!');
+               }
+               else if (isSyncCompleted(parsedMsg)) {
+                 console.log('photo-manager/views/home._respondToEvents - sync completed!');
+               }
+             };
            }
+
          });
 
          return HomeView;

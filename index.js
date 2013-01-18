@@ -5,12 +5,12 @@
 //
 
 process.on('uncaughtException', function(err) {
-    console.log('index.js: Uncaught exception - ' + err);
-    process.exit(-1);
+  console.log('index.js: Uncaught exception - ' + err);
 });
 
 var path = require('path');
 var _ = require('underscore');
+var requirejs = require('requirejs');
 
 var appjs = module.exports = require('appjs');
 
@@ -78,8 +78,13 @@ window.on('create', function(){
 
 window.on('ready', function(){
   console.log("index.js: Window Ready");
+  window.require = require;
+  window.requirejs = requirejs;
   window.process = process;
   window.module = module;
+  window.appReady = false;
+
+  window.dispatchEvent(new window.Event('app-ready'));
 
   function F12(e){ return e.keyIdentifier === 'F12' }
   //
