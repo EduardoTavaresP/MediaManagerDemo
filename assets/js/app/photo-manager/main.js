@@ -4,15 +4,24 @@
 // First configure any aliases along with where they live.
 //
 
+// var requirejs = undefined;
+
+console.log('app/photo-manager/main: Adding app-ready event listener...');
+
 addEventListener('app-ready', function(e){
 
-  if (appReady) {
+  console.log('Got app-ready event!');
+
+  if (processedAppReady) {
+    console.log('app/photo-manager/main: App ready already processed...');
     return;
   }
 
-  appReady = true;
+  processedAppReady = true;
 
-  console.log('Got app-ready');
+  console.log('App is now ready...');
+
+  // requirejs = require('requirejs');
 
   requirejs.config({
     nodeRequire: require,
@@ -23,7 +32,7 @@ addEventListener('app-ready', function(e){
     baseUrl: 'js/libs',
     //
     // However, anything where module ID begins w/
-    // "app", load it from js/app.
+    // "app", load it from js/app/photo-manager.
     //
     paths: {
       text: 'require/text',
@@ -51,11 +60,20 @@ addEventListener('app-ready', function(e){
   });
 
   console.log('Testing require - ' + require('node-uuid').v4());
-  
+
   // Load our app and pass it into our definition function.
   requirejs(['app/app'],
             function(App) {
-              console.log('Invoking app...');
-              // App.initialize();
+              console.log('Invoking app, typeof is - ' + typeof(App));
+              App.initialize();
             });
 });
+
+//
+//  There is a possible race condition where the app-ready event may be dispatched before
+//  requireJS loads this. Hence, ensure triggering it ourself. The handler
+//  will ONLY process things once.
+//
+if (appReady && processedAppReady === false) {
+  dispatchEvent(new Event('app-ready'));
+}

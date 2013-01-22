@@ -80,6 +80,7 @@
     console.log("Document is ready!");
     PLM.initFoundation();
     PLM.NavManager.onReady();
+    console.log("Finished setting up document.");
   });
 
 })(this);

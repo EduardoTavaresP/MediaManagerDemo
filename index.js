@@ -10,7 +10,15 @@ process.on('uncaughtException', function(err) {
 
 var path = require('path');
 var _ = require('underscore');
-var requirejs = require('requirejs');
+
+//
+//  The following requires of node-uuid through MediaManagerApi/lib/NotificationsWsLike are performed here to get these modules
+//  cached. They are latter required in browser context. If they are not cached here, then the app
+//  crashes in browser context when the require is executed. This appears to be some sort of bug in the sense that
+//  node.js's require does NOT run properly in browser context.
+//
+var uuid = require('node-uuid');
+var WebSocket = require('MediaManagerApi/lib/NotificationsWsLike');
 
 var appjs = module.exports = require('appjs');
 
@@ -74,17 +82,21 @@ window.on('create', function(){
   console.log("index.js: Window Created");
   window.frame.show();
   window.frame.center();
+  window.appReady = false;
 });
 
 window.on('ready', function(){
   console.log("index.js: Window Ready");
   window.require = require;
-  window.requirejs = requirejs;
+  // window.requirejs = requirejs;
   window.process = process;
   window.module = module;
-  window.appReady = false;
+  window.appReady = true;
+  window.processedAppReady = false;
 
   window.dispatchEvent(new window.Event('app-ready'));
+
+  console.log('index.js: Dispatched app-ready event');
 
   function F12(e){ return e.keyIdentifier === 'F12' }
   //

@@ -1,6 +1,7 @@
 // Filename: photo-manager/views/home.js
 //
-// var WebSocket = require('MediaManagerApi/lib/NotificationsWsLike');
+var WebSocket = require('MediaManagerApi/lib/NotificationsWsLike');
+
 define([
   'jquery',
   'underscore',
@@ -27,7 +28,7 @@ define([
                                       options) {
                console.log('photo-manager/views/home - successfully loaded recent uploads...');
                that._doRender();
-               // that._respondToEvents();
+               that._respondToEvents();
              };
              var onError = function(recentUploads, xhr, options) {
                console.log('photo-manager/views/home - error loading recent uploads.');
