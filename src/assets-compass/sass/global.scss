@@ -129,6 +129,31 @@ body {
     }
   }
 
+  div.flash-notice {
+    display: block;
+    position: absolute;
+    top: $header-height;
+    left: $left-bar-width;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    height: 40px;
+    z-index: 999;
+
+    .flash-row {
+
+      .flash-content {
+        border: 1px solid #99cc99;
+        padding: 10px;
+        color: green;
+        background: #e2f9e3;
+	color: black;
+        font-weight: normal;
+        text-align: center;
+      }
+    }
+  }
+
   section.container {
     display: block;
     position: absolute;

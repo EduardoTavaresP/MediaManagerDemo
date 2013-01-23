@@ -128,9 +128,11 @@ define([
                }
                else if (isSyncStarted(parsedMsg)) {
                  console.log('photo-manager/views/home._respondToEvents - sync started!');
+                 PLM.showFlash('Media sync started!');
                }
                else if (isSyncCompleted(parsedMsg)) {
                  console.log('photo-manager/views/home._respondToEvents - sync completed!');
+                 PLM.showFlash('Media sync completed!');
                }
              };
            }

@@ -36,6 +36,10 @@
         %li.side-nav-photos
           %a{ :href => "/photos" }
             %i.entypo-icon-camera
+    %div{ :class => "flash-notice" }
+      %div{ :class => "flash-notice-inner twelve columns" }
+        %div{ :class => "flash-row row" }
+          %div{ :class => "flash-content four columns centered" }
     %section.container
       %div{:id => 'content', :class => "#{view}"+ '/' + "#{action}"}
         = yield
