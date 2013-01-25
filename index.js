@@ -5,7 +5,7 @@
 //
 
 process.on('uncaughtException', function(err) {
-  console.log('index.js: Uncaught exception - ' + err);
+  app.logger.error('index.js: Uncaught exception - ' + err);
 });
 
 var path = require('path');
@@ -36,27 +36,27 @@ var routes = {
   '/': {
     GET: function(req, res) {
       var showPath = path.join(assetDir, '/html/dashboard/show.html');
-      console.log('index.js: Handling - GET /, path = ' + showPath);
+      app.logger.info('index.js: Handling - GET /, path = ' + showPath);
       res.sendFile(200, showPath);
-      console.log('index.js: Handled - GET /, status code = ' + res.statusCode);
+      app.logger.info('index.js: Handled - GET /, status code = ' + res.statusCode);
     }
   },
 
   '/photos': {
     GET: function(req, res) {
       var showPath = path.join(assetDir, '/html/photo-manager/show.html');
-      console.log('index.js: Handling - GET /photos, path = ' + showPath);
+      app.logger.info('index.js: Handling - GET /photos, path = ' + showPath);
       res.sendFile(200, showPath);
-      console.log('index.js: Handled - GET /photos, status code = ' + res.statusCode);
+      app.logger.info('index.js: Handled - GET /photos, status code = ' + res.statusCode);
     }
   },
 
   '/coming-soon': {
     GET: function(req, res) {
       var showPath = path.join(assetDir, '/html/static-pages/coming-soon.html');
-      console.log('index.js: Handling - GET /coming-soon, path = ' + showPath);
+      app.logger.info('index.js: Handling - GET /coming-soon, path = ' + showPath);
       res.sendFile(404, showPath);
-      console.log('index.js: Handled - GET /coming-soon, status code = ' + res.statusCode);
+      app.logger.info('index.js: Handled - GET /coming-soon, status code = ' + res.statusCode);
     }
   }
 };
@@ -68,8 +68,8 @@ var app = require('MediaManagerAppSupport').init(appjs, routes);
 var querystring = require('querystring');
 
 app.on('localStorageExit', function() {
-    console.log('index.js: Local storage sub-process has exited. APP will now shut down.');
-    process.exit(-1);
+  app.logger.error('index.js: Local storage sub-process has exited. APP will now shut down.');
+  process.exit(-1);
 });
 
 var window = appjs.createWindow({
@@ -79,14 +79,14 @@ var window = appjs.createWindow({
 });
 
 window.on('create', function(){
-  console.log("index.js: Window Created");
+  app.logger.info("index.js: Window Created");
   window.frame.show();
   window.frame.center();
   window.appReady = false;
 });
 
 window.on('ready', function(){
-  console.log("index.js: Window Ready");
+  app.logger.info("index.js: Window Ready");
   window.require = require;
   // window.requirejs = requirejs;
   window.process = process;
@@ -96,7 +96,7 @@ window.on('ready', function(){
 
   window.dispatchEvent(new window.Event('app-ready'));
 
-  console.log('index.js: Dispatched app-ready event');
+  app.logger.info('index.js: Dispatched app-ready event');
 
   function F12(e){ return e.keyIdentifier === 'F12' }
   //
@@ -114,31 +114,31 @@ window.on('ready', function(){
     }
     else if (Command_Control_F(e)) {
       if (window.frame.state === 'fullscreen') {
-        console.log('index.js: Fullscreen - Restoring!');
+        app.logger.info('index.js: Fullscreen - Restoring!');
         window.frame.restore();
       }
       else if (window.frame.state === 'normal') {
-        console.log('index.js: Normal - Going full screen!');
+        app.logger.info('index.js: Normal - Going full screen!');
         window.frame.fullscreen();
       }
       else if (window.frame.state === 'maximized') {
-        console.log('index.js: Maximized - Going full screen!');
+        app.logger.info('index.js: Maximized - Going full screen!');
         window.frame.fullscreen();
       }
       else if (window.frame.state === 'minimized') {
-        console.log('index.js: maximizing!');
+        app.logger.info('index.js: maximizing!');
         window.frame.maximize();
       }
     }
     else if (Escape(e)) {
-        console.log('index.js: Got escape');
-        window.frame.restore();
+      app.logger.info('index.js: Got escape');
+      window.frame.restore();
     }
   });
 });
 
 window.on('close', function(){
-    console.log("index.js: Window Closed");
-    app.shutdown();
+  app.logger.info("index.js: Window Closed");
+  app.shutdown();
 });
 
