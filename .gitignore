@@ -1,5 +1,6 @@
 .bundle
 bin
+config/runtime.json
 node_modules
 src/assets-compass/.sass-cache
 MediaManagerTouchServer.app/
