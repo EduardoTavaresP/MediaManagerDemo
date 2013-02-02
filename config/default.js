@@ -9,8 +9,8 @@
 //  appConfig:
 //
 var appConfig = {
-  appId: undefined,
-  appName: undefined
+  id: undefined,
+  name: undefined
 };
 
 //
@@ -20,7 +20,8 @@ var dbConfig = {
   database: "plm-media-manager",
   local: {
     execPath: './MediaManagerTouchServer.app/Contents/MacOS/MediaManagerTouchServ',
-    port: "59840"
+    port: "59840",
+    updateSeq: undefined
   },
   remote: {
     host: "72.52.106.218",
