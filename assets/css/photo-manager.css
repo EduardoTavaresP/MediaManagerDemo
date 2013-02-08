@@ -1,23 +1,51 @@
-/* line 10, ../../assets-compass/sass/photo-manager.scss */
+/* line 12, ../../assets-compass/sass/photo-manager.scss */
 
 div#content #content-top-nav {
   top: 45px;
   left: 45px;
+  height: 40px;
   background-color: #373737;
   z-index: 1;
 }
-/* line 16, ../../assets-compass/sass/photo-manager.scss */
-div#content #content-top-nav nav {
-  height: 40px;
+/* line 19, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav div.button-bar {
+  margin: 4px 0px 4px 0px;
 }
 /* line 22, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav div.button-bar ul.button-group {
+  margin-bottom: 0px;
+}
+/* line 25, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav div.button-bar ul.button-group .button:hover, div#content #content-top-nav div.button-bar ul.button-group .button:focus {
+  background-color: #424242;
+  color: white;
+}
+/* line 30, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav div.button-bar ul.button-group .button:active, div#content #content-top-nav div.button-bar ul.button-group .button.active {
+  background-color: #424242;
+  color: #6ecff2;
+}
+/* line 35, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav div.button-bar ul.button-group .button {
+  margin: 0 2px 0 0;
+  border: 1px solid black;
+  padding: 2px 2px 2px 2px;
+  background-color: #474747;
+  line-height: 26px;
+}
+/* line 42, ../../assets-compass/sass/photo-manager.scss */
+div#content #content-top-nav div.button-bar ul.button-group .button [class^="entypo-icon-"], div#content #content-top-nav div.button-bar ul.button-group .button [class*=" entypo-icon-"] {
+  margin: 0 0 0 0;
+  font-size: 26px;
+}
+/* line 52, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads {
   position: relative;
   top: 0px;
   height: 35%;
   background-color: #474747;
 }
-/* line 28, ../../assets-compass/sass/photo-manager.scss */
+/* line 58, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner {
   position: absolute;
   top: 0;
@@ -28,60 +56,60 @@ div#content #recent-uploads #recent-uploads-inner {
   overflow-y: hidden;
   overflow-x: hidden;
 }
-/* line 38, ../../assets-compass/sass/photo-manager.scss */
+/* line 68, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner h1 {
   margin: 10px 20px 10px 20px;
   text-align: left;
 }
-/* line 44, ../../assets-compass/sass/photo-manager.scss */
+/* line 74, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel {
   padding-bottom: 20px;
   overflow-x: scroll;
 }
-/* line 48, ../../assets-compass/sass/photo-manager.scss */
+/* line 78, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel ul {
   float: left;
   margin: 10px 20px 10px 20px;
   white-space: nowrap;
 }
-/* line 53, ../../assets-compass/sass/photo-manager.scss */
+/* line 83, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel ul li {
   float: none;
   display: inline-block;
   position: static;
   margin: 10px 10px 10px 10px;
 }
-/* line 59, ../../assets-compass/sass/photo-manager.scss */
+/* line 89, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel ul li p {
   font-size: 14px;
 }
-/* line 63, ../../assets-compass/sass/photo-manager.scss */
+/* line 93, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel ul li:first-child {
   margin: 10px 10px 10px 0px;
 }
-/* line 66, ../../assets-compass/sass/photo-manager.scss */
+/* line 96, ../../assets-compass/sass/photo-manager.scss */
 div#content #recent-uploads #recent-uploads-inner div.clearing-assembled div.carousel ul li:last-child {
   margin: 10px 0px 10px 10px;
 }
-/* line 74, ../../assets-compass/sass/photo-manager.scss */
+/* line 104, ../../assets-compass/sass/photo-manager.scss */
 div#content #galleries {
   position: absolute;
   bottom: 0px;
   height: 65%;
   background-color: #424242;
 }
-/* line 80, ../../assets-compass/sass/photo-manager.scss */
+/* line 110, ../../assets-compass/sass/photo-manager.scss */
 div#content #galleries #galleries-inner {
   margin: 10px 10px 10px 10px;
   overflow-y: hidden;
   overflow-x: scroll;
 }
-/* line 85, ../../assets-compass/sass/photo-manager.scss */
+/* line 115, ../../assets-compass/sass/photo-manager.scss */
 div#content #galleries #galleries-inner h1 {
   margin: 10px 20px 10px 20px;
   text-align: left;
 }
-/* line 91, ../../assets-compass/sass/photo-manager.scss */
+/* line 121, ../../assets-compass/sass/photo-manager.scss */
 div#content #content-bottom-bar {
   position: fixed;
   top: none !important;

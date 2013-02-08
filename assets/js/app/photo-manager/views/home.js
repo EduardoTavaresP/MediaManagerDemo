@@ -109,6 +109,14 @@ define([
                return (parsedMsg.resource === '/storage/synchronizers' && parsedMsg.event === 'sync.completed');
              };
 
+             function isImportStarted(parsedMsg) {
+               return (parsedMsg.resource === '/importers' && parsedMsg.event === 'import.started');
+             };
+             
+             function isImportCompleted(parsedMsg) {
+               return (parsedMsg.resource === '/importers' && parsedMsg.event === 'import.completed');
+             };
+
              function doSubscriptions(ws) {
                console.log('photo-manager/views/home._respondToEvents - Subscribing to notification events');
                ws.send(JSON.stringify({
@@ -116,6 +124,12 @@ define([
                  "event": "subscribe",
                  "data": {
                    "resource": "/storage/synchronizers" 
+                 }}));
+               ws.send(JSON.stringify({
+                 "resource": "_client", 
+                 "event": "subscribe",
+                 "data": {
+                   "resource": "/importers" 
                  }}));
                console.log('photo-manager/views/home._respondToEvents - Subscribed to notification events');
              };
@@ -126,13 +140,25 @@ define([
                if (isConnectionEstablished(parsedMsg)) {
                  doSubscriptions(ws);
                }
+               else if (isImportStarted(parsedMsg)) {
+                 console.log('photo-manager/views/home._respondToEvents - import started!');
+                 $('#content-top-nav a.import').addClass('active');
+                 PLM.showFlash('Media import started!');
+               }
+               else if (isImportCompleted(parsedMsg)) {
+                 console.log('photo-manager/views/home._respondToEvents - import completed!');
+                 PLM.showFlash('Media import completed!');
+                 $('#content-top-nav a.import').removeClass('active');
+               }
                else if (isSyncStarted(parsedMsg)) {
                  console.log('photo-manager/views/home._respondToEvents - sync started!');
+                 $('#content-top-nav a.sync').addClass('active');
                  PLM.showFlash('Media sync started!');
                }
                else if (isSyncCompleted(parsedMsg)) {
                  console.log('photo-manager/views/home._respondToEvents - sync completed!');
                  PLM.showFlash('Media sync completed!');
+                 $('#content-top-nav a.sync').removeClass('active');
                }
              };
            }

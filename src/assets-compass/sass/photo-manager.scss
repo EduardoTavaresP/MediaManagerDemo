@@ -6,15 +6,45 @@
 $content-top-nav-height: 40px;
 $content-bottom-bar-height: 40px;
 
+$content-top-nav-button-font-size: ms(1);
+
 div#content {
   #content-top-nav {
     top: $header-height;
     left: $left-bar-width;
+    height: $content-top-nav-height;
     background-color: $content-top-nav-bg-color;
     z-index: 1;
 
-    nav {
-      height: $content-top-nav-height;
+    div.button-bar {
+      margin: 4px 0px 4px 0px;
+
+      ul.button-group {
+        margin-bottom: 0px;
+
+        .button:hover, .button:focus {
+          background-color: $content-bg-color;
+          color: white;
+        }
+
+        .button:active, .button.active {
+          background-color: $nav-active-bg-color;
+          color: $nav-active-text-color;
+        }
+
+        .button {
+          margin: 0 2px 0 0;
+          border: 1px solid black;
+          padding: 2px 2px 2px 2px;
+          background-color: $content-lighter-bg-color;	
+          line-height: $content-top-nav-height - 14px;
+
+          [class^="entypo-icon-"], [class*=" entypo-icon-"] {
+            margin: 0 0 0 0;
+            font-size: $content-top-nav-button-font-size;
+          }
+        }
+      }
     }
   }
 

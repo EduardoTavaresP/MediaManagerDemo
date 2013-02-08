@@ -1,19 +1,22 @@
-<div id="content-top-nav" class="row fixed">
-  <nav class="row twelve columns">
-    <ul class="ul.side-nav">
+<div id="content-top-nav" class="row twelve columns fixed">
+  <div class="button-bar two columns">
+    <ul class="button-group">
       <li>
-        <a class="import">
+        <a class="import button tiny radius">
           <i class="entypo-icon-upload"/>
         </a>
-        <a class="sync">
+      </li>
+      <li>
+        <a class="sync button tiny radius">
           <i class="entypo-icon-cw"/>
         </a>
       </li>
     </ul>
+  </div>
 </div>
 <div id="recent-uploads">
   <div id="recent-uploads-inner">
-    <h1>Recent Uploads</h1>
+    <h1>Last Import</h1>
     <ul data-clearing="">
       <% recentImages.each(function(recentImage){ %>
         <li>
