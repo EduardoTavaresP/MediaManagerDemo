@@ -7,9 +7,9 @@ define([
   'underscore',
   'backbone',
   'foundationClearing',
-  'app/collections/recent-uploads',
+  'app/collections/last-import',
   'text!/html/photo-manager/templates/home.html'],
-       function($, _, Backbone, FoundationClearing, RecentUploadsCollection, homeTemplate) {
+       function($, _, Backbone, FoundationClearing, LastImportCollection, homeTemplate) {
 
          var ws = undefined;
 
@@ -18,38 +18,38 @@ define([
            el: $('#content'),
            
            initialize: function() {
-             this.recentUploads = new RecentUploadsCollection();
+             this.lastImport = new LastImportCollection();
            },
 
            render: function() {
              var that = this;
-             var onSuccess = function(recentUploads, 
+             var onSuccess = function(lastImport, 
                                       response, 
                                       options) {
                console.log('photo-manager/views/home - successfully loaded recent uploads...');
                that._doRender();
                that._respondToEvents();
              };
-             var onError = function(recentUploads, xhr, options) {
+             var onError = function(lastImport, xhr, options) {
                console.log('photo-manager/views/home - error loading recent uploads.');
              };
-             this.recentUploads.fetch({success: onSuccess,
-                                       error: onError});
+             this.lastImport.fetch({success: onSuccess,
+                                    error: onError});
            },
 
            //
            // _doRender: We have loaded the data, its safe to render.
            //
            _doRender: function() {
-             console.log('photo-manager/views/home._doRender: Will render ' + _.size(this.recentUploads) + ' images...');
-             this.recentUploads.each(function(image) {
+             console.log('photo-manager/views/home._doRender: Will render ' + _.size(this.lastImport) + ' images...');
+             this.lastImport.each(function(image) {
                console.log('photo-manager/views/home._doRender: Have image - ' + image.get('name'));
                var variants = image.get('variants');
                console.log('photo-manager/views/home._doRender:   have ' + variants.length + ' variants...');               
                var filteredVariants = _.filter(image.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; });
                console.log('photo-manager/views/home._doRender:   have ' + filteredVariants.length + ' thumbnail variants...');
              });
-             var compiledTemplate = _.template(homeTemplate, { recentImages: this.recentUploads,
+             var compiledTemplate = _.template(homeTemplate, { lastImportImages: this.lastImport,
                                                                _: _ });
              this.$el.html(compiledTemplate);
              $('#content-top-nav a.import').click(function(el) {
@@ -85,7 +85,7 @@ define([
                        }
                       });
              });
-             if (_.size(this.recentUploads)) {
+             if (_.size(this.lastImport)) {
                $(document).foundationClearing();
              }
            },
