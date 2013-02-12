@@ -5,7 +5,12 @@
 //
 
 process.on('uncaughtException', function(err) {
-  app.logger.error('index.js: Uncaught exception - ' + err);
+  var msg = 'index.js: Uncaught exception - ' + err;
+  if (app && app.logger) {
+    app.logger.error(msg);
+  } else {
+    console.log(msg);
+  }
 });
 
 var path = require('path');
@@ -19,6 +24,7 @@ var _ = require('underscore');
 //
 var uuid = require('node-uuid');
 var WebSocket = require('MediaManagerApi/lib/NotificationsWsLike');
+require('ImageService/lib/plm-image/ImageService');
 
 var appjs = module.exports = require('appjs');
 
@@ -98,15 +104,15 @@ window.on('ready', function(){
 
   app.logger.info('index.js: Dispatched app-ready event');
 
-  function F12(e){ return e.keyIdentifier === 'F12' }
+  function F12(e){ return e.keyIdentifier === 'F12';}
   //
   // e.metaKey -> Command
   // e.altKey -> Option
   // e.ctrlKey -> Option
   //
-  function Command_Control_F(e){ return e.keyCode === 70 && e.metaKey && e.ctrlKey }
-  function Command_Option_J(e){ return e.keyCode === 74 && e.metaKey && e.altKey }
-  function Escape(e){ return e.keyCode === 27 }
+  function Command_Control_F(e){ return e.keyCode === 70 && e.metaKey && e.ctrlKey; }
+  function Command_Option_J(e){ return e.keyCode === 74 && e.metaKey && e.altKey; }
+  function Escape(e){ return e.keyCode === 27; }
 
   window.addEventListener('keydown', function(e){
     if (F12(e) || Command_Option_J(e)) {
