@@ -4,8 +4,19 @@
 //    This is the main entry point.
 //
 
+/*
 process.on('uncaughtException', function(err) {
   app.logger.error('index.js: Uncaught exception - ' + err);
+});
+*/
+
+process.on('uncaughtException', function(err) {
+  var msg = 'index.js: Uncaught exception - ' + err;
+  if (app && app.logger) {
+    app.logger.error(msg);
+  } else {
+    console.log(msg);
+  }
 });
 
 var path = require('path');
@@ -30,7 +41,7 @@ appjs.serveFilesFrom(assetDir);
 //  we are using, ie:
 //
 //    * http://github.com/jed/browserver-router or
-//    * https://npmjs.org/package/browserver-router. 
+//    * https://npmjs.org/package/browserver-router.
 //
 var routes = {
   '/': {
@@ -141,4 +152,3 @@ window.on('close', function(){
   app.logger.info("index.js: Window Closed");
   app.shutdown();
 });
-
