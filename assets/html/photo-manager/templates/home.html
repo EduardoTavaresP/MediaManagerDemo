@@ -1,25 +1,5 @@
-<!--
-<div id="last-import">
-  <div id="last-import-inner">
-    <h1>Last Import</h1>
-    <ul data-clearing="">
-      <% lastImportImages.length && lastImportImages.each(function(anImage) { %>
-        <li>
-          <% var thumbnail = _.first(_.filter(anImage.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; })); %>
-          <% var fullSmall = _.first(_.filter(anImage.get('variants'), function(variant) { return variant.name === 'full-small.jpg'; })); %>
-          <% if (_.has(thumbnail, 'url') && (_.has(fullSmall, 'url'))) { %>
-            <a href='<%= fullSmall.url %>'><img data-caption='' src='<%= thumbnail.url %>'/></a>
-            <p><%= anImage.get('name').replace(/^\$/, '') %></p>
-          <% } %>
-        </li>
-      <% }); %>
-    </ul>
-  </div>
-</div>
--->
-
 <h4>
-  X Photos <span class="imported-timestamp">Imported: 2012-12-07 11:46 PM</span>
+  <%= _.size(lastImportImages) %> Photos <span class="imported-timestamp">Imported: 2012-12-07 11:46 PM</span>
 </h4>
 
 <hr>
