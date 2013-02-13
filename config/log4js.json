@@ -1,0 +1,25 @@
+{
+  "replaceConsole":"true"
+  ,"appenders" : [
+    {
+      "type": "console"
+      ,"category": "console"
+			,"levels":"ERROR"
+      ,"layout" : {
+        "type": "pattern"
+        ,"pattern": "%d | %p | %c | %m"
+      }
+    }
+    ,{
+      "type":"file"
+      ,"category": ["plm.MediaManagerApp", "plm.MediaManagerAppSupport", "plm.ImageService"]
+      ,"filename": "var/log/plm.log"
+			,"levels":"INFO"
+      ,"backups": 10
+      ,"layout" : {
+        "type": "pattern"
+        ,"pattern": "%d | %p | %c | %m"
+      }
+    }
+  ]
+}

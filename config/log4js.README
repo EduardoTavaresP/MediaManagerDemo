@@ -1,0 +1,21 @@
+Included herewith are:
+
+- log4js.json 
+	a logging configuration file intended for a production environment
+
+- log4js.json.dev 
+	a sample configuration file that can be used to add logging verbosity during development.  To use
+	this file, either rename it to log4js.json, or better yet, change the environment variable
+	LOG4JS_CONFIG to point to this file.  Whatever you do, please do not clobber the log4js.json that
+	is intended for production use.
+
+Note that it should be possible to change the logging behavior at run time by changing the
+log4js.json configuration file, and without having to restart the app.
+
+For more information on log4js, please refer to:
+
+- https://github.com/nomiddlename/log4js-node
+
+  and
+
+- http://log4js.berlios.de

@@ -32,6 +32,7 @@ var dbConfig = {
 //
 //  loggingConfig: Logging configuration
 //
+/*
 var loggingConfig = {
   appenders: [
     {
@@ -49,11 +50,12 @@ var loggingConfig = {
               "plm.ImageService" : "ERROR" },
   "replaceConsole": false
 };
+*/
 
 var config = {
   app: appConfig,
   db: dbConfig,
-  logging: loggingConfig
+  // logging: loggingConfig
 };
 
 module.exports = config;

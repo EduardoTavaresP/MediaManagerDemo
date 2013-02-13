@@ -1,0 +1,24 @@
+{
+  "replaceConsole":"true"
+  ,"levels": {"plm.MediaManagerApp": "TRACE", "plm.ImageService": "DEBUG", "plm.MediaManagerApi": "DEBUG"}
+  ,"appenders" : [
+    {
+      "type": "console"
+      ,"category": "console"
+      ,"layout" : {
+        "type": "pattern"
+        ,"pattern": "%d | %p | %c | %m"
+      }
+    }
+    ,{
+      "type":"file"
+      ,"category": ["plm.MediaManagerApp", "plm.MediaManagerAppSupport", "plm.ImageService"]
+      ,"filename": "var/log/plm.log"
+      ,"backups": 10
+      ,"layout" : {
+        "type": "pattern"
+        ,"pattern": "%d | %p | %c | %m"
+      }
+    }
+  ]
+}
