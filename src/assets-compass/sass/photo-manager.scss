@@ -48,20 +48,20 @@ div#content {
     }
   }
 
-  $recent-uploads-top-margin: $content-top-nav-height + 10px;
-  #recent-uploads {
+  $last-import-top-margin: $content-top-nav-height + 10px;
+  #last-import {
     position: relative;
     top: 0px;
     height: 35%;
     background-color: $content-lighter-bg-color;
 
-    #recent-uploads-inner {
+    #last-import-inner {
       position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
-      margin: $recent-uploads-top-margin 10px 10px 10px;
+      margin: $last-import-top-margin 10px 10px 10px;
       overflow-y: hidden;
       overflow-x: hidden;
 
