@@ -74,6 +74,6 @@ addEventListener('app-ready', function(e){
 //  requireJS loads this. Hence, ensure triggering it ourself. The handler
 //  will ONLY process things once.
 //
-if (appReady && processedAppReady === false) {
+if (window.hasOwnProperty('appReady') && window.hasOwnProperty('processedAppReady') && (processedAppReady === false)) {
   dispatchEvent(new Event('app-ready'));
 }
