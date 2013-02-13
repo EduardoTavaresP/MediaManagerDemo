@@ -32,7 +32,7 @@ define([
          //        On import.completed
          //          state = STATUS_RENDERED
          //
-         //      * sync with peer applications:
+         //      * sync with peer applications: 
          //        When a doc.importers.created or doc.importers.updated event is detected from a foreign instance of the application:
          //          - if the importers document should supercede the current lastImport's lastImporter then
          //            state = STATUS_OBSOLETE
@@ -50,13 +50,13 @@ define([
            //  STATUS_INCREMENTALLY_RENDERING: the view is being incrementally rendered one image at a time.
            //  STATUS_OBSOLETE: the view is rendered by obsolute. For example, may have seen an importer document from another
            //    app instance via the changes feed that will require re-rendering.
-           //
+           //  
            STATUS_UNRENDERED: 0,
            STATUS_RENDERED: 1,
            STATUS_INCREMENTALLY_RENDERING: 2,
            STATUS_OBSOLETE: 3,
            status: undefined,
-
+           
            initialize: function() {
              this.status = this.STATUS_UNRENDERED;
              this.lastImport = new LastImportCollection();
@@ -64,8 +64,8 @@ define([
 
            render: function() {
              var that = this;
-             var onSuccess = function(lastImport,
-                                      response,
+             var onSuccess = function(lastImport, 
+                                      response, 
                                       options) {
                console.log('photo-manager/views/home: successfully loaded recent uploads...');
                that._doRender();
@@ -83,7 +83,7 @@ define([
            // _doRender: We have loaded the data, its safe to render.
            //
            _doRender: function() {
-             // console.log('photo-manager/views/home._doRender: Will render ' + _.size(this.lastImport) + ' images...');
+             console.log('photo-manager/views/home._doRender: Will render ' + _.size(this.lastImport) + ' images...');
              if (this.lastImport.importer === undefined) {
                PLM.showFlash('You have not yet imported any images!');
              }
@@ -94,7 +94,7 @@ define([
                this.lastImport.each(function(image) {
                  console.log('photo-manager/views/home._doRender: Have image - ' + image.get('name'));
                  var variants = image.get('variants');
-                 console.log('photo-manager/views/home._doRender:   have ' + variants.length + ' variants...');
+                 console.log('photo-manager/views/home._doRender:   have ' + variants.length + ' variants...');               
                  var filteredVariants = _.filter(image.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; });
                  console.log('photo-manager/views/home._doRender:   have ' + filteredVariants.length + ' thumbnail variants...');
                });
@@ -102,8 +102,6 @@ define([
              var compiledTemplate = _.template(homeTemplate, { lastImportImages: this.lastImport,
                                                                _: _ });
              this.$el.html(compiledTemplate);
-
-			        /*
              $('#content-top-nav a.import').click(function(el) {
                console.log('photo-manager/views/home: clicked import!');
                var payload = JSON.stringify({
@@ -122,41 +120,6 @@ define([
                        }
                       });
              });
-			      */
-
-            $("#upload-photos").live("click", function(el){
-				      console.log("Trying to upload images...")
-              window.frame.openDialog({
-                type: 'open', // Either open or save
-                title: 'Open...', // Dialog title, default is window title
-                multiSelect: false, // Allows multiple file selection
-                dirSelect:true, // Directory selector
-                // initialValue:'/Users/ahmadvaroqua/Downloads/PPM3' // Initial save or open file name. Remember to escape backslashes.
-                initialValue: '~/Pictures' // Initial save or open file name. Remember to escape backslashes.
-              }, function( err , files ) {
-
-                $.ajax({
-                  url: 'http://appjs/api/media-manager/v0/importers',
-                  type: 'POST',
-                  data: {
-                    "import_dir": files[0]
-                  },
-                  // processData: false,
-                  success: function(data, textStatus, jqXHR) {
-                    console.log(">> AJAX success");
-                  },
-                  error: function() {
-                    console.log(">> AJAX failure");
-                  }
-                });
-                // End of AJAX call
-
-              });
-              // End of Open Save Dialog
-
-            });
-            // End of button push
-
              $('#content-top-nav a.sync').click(function(el) {
                console.log('photo-manager/views/home: clicked sync!');
                $.ajax({url: 'http://appjs/api/media-manager/v0/storage/synchronizers',
@@ -208,13 +171,12 @@ define([
                // Also add the image to the view.
                //
                var compiledTemplate = _.template(lastImportImageTemplate, { image: imageModel });
-               // $('#last-import ul').append(compiledTemplate);
-               $('.photos-collection').append(compiledTemplate);
+               $('#last-import ul').append(compiledTemplate);
              }
            },
 
            //
-           // _finishIncrementalRender: Incremental rendering of the view should be complete.
+           // _finishIncrementalRender: Incremental rendering of the view should be complete. 
            //
            //  Currently, only change status to STATUS_RENDERED.
            //
@@ -243,7 +205,7 @@ define([
              function isImportImageSaved(parsedMsg) {
                return (parsedMsg.resource === '/importers' && parsedMsg.event === 'import.image.saved');
              };
-
+             
              function isImportCompleted(parsedMsg) {
                return (parsedMsg.resource === '/importers' && parsedMsg.event === 'import.completed');
              };
@@ -251,7 +213,7 @@ define([
              function isSyncStarted(parsedMsg) {
                return (parsedMsg.resource === '/storage/synchronizers' && parsedMsg.event === 'sync.started');
              };
-
+             
              function isSyncCompleted(parsedMsg) {
                return (parsedMsg.resource === '/storage/synchronizers' && parsedMsg.event === 'sync.completed');
              };
@@ -259,16 +221,16 @@ define([
              function doSubscriptions(ws) {
                console.log('photo-manager/views/home._respondToEvents: Subscribing to notification events');
                ws.send(JSON.stringify({
-                 "resource": "_client",
+                 "resource": "_client", 
                  "event": "subscribe",
                  "data": {
-                   "resource": "/storage/synchronizers"
+                   "resource": "/storage/synchronizers" 
                  }}));
                ws.send(JSON.stringify({
-                 "resource": "_client",
+                 "resource": "_client", 
                  "event": "subscribe",
                  "data": {
-                   "resource": "/importers"
+                   "resource": "/importers" 
                  }}));
                console.log('photo-manager/views/home._respondToEvents: Subscribed to notification events');
              };

@@ -1,8 +1,24 @@
+<!--
 <li>
   <% var thumbnail = _.first(_.filter(image.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; })); %>
   <% var fullSmall = _.first(_.filter(image.get('variants'), function(variant) { return variant.name === 'full-small.jpg'; })); %>
+
   <% if (_.has(thumbnail, 'url') && (_.has(fullSmall, 'url'))) { %>
     <a href='<%= fullSmall.url %>'><img data-caption='' src='<%= thumbnail.url %>'/></a>
     <p><%= image.get('name').replace(/^\$/, '') %></p>
   <% } %>
+
 </li>
+-->
+
+<div class='photo'>
+  <% var thumbnail = _.first(_.filter(image.get('variants'), function(variant) { return variant.name === 'thumbnail.jpg'; })); %>
+  <% var fullSmall = _.first(_.filter(image.get('variants'), function(variant) { return variant.name === 'full-small.jpg'; })); %>
+
+  <img class='photo-thumbnail' src='<%= thumbnail.url %>'>
+    <div class='photo-caption'>
+      <img src='/imgs/Checkbox.png'>
+      <%= image.get('name').replace(/^\$/, '') %>
+      <img class='edit-photo' src='/imgs/Pencil.png'>
+    </div>
+</div>
