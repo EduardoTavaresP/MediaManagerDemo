@@ -62,6 +62,24 @@ var routes = {
     }
   },
 
+  '/lighting': {
+    GET: function(req, res) {
+      var showPath = path.join(assetDir, '/html/lighting/show.html');
+      app.logger.info('index.js: Handling - GET /lighting, path = ' + showPath);
+      res.sendFile(200, showPath);
+      app.logger.info('index.js: Handled - GET /lighting, status code = ' + res.statusCode);
+    }
+  },
+
+  '/video': {
+    GET: function(req, res) {
+      var showPath = path.join(assetDir, '/html/video/show.html');
+      app.logger.info('index.js: Handling - GET /video, path = ' + showPath);
+      res.sendFile(200, showPath);
+      app.logger.info('index.js: Handled - GET /video, status code = ' + res.statusCode);
+    }
+  },
+
   '/coming-soon': {
     GET: function(req, res) {
       var showPath = path.join(assetDir, '/html/static-pages/coming-soon.html');
