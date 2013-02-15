@@ -131,25 +131,36 @@ define([
                 title: 'Open...', // Dialog title, default is window title
                 multiSelect: false, // Allows multiple file selection
                 dirSelect:true, // Directory selector
-                // initialValue:'/Users/ahmadvaroqua/Downloads/PPM3' // Initial save or open file name. Remember to escape backslashes.
                 initialValue: '~/Pictures' // Initial save or open file name. Remember to escape backslashes.
               }, function( err , files ) {
-
-                $.ajax({
-                  url: 'http://appjs/api/media-manager/v0/importers',
-                  type: 'POST',
-                  data: {
-                    "import_dir": files[0]
-                  },
-                  // processData: false,
-                  success: function(data, textStatus, jqXHR) {
-                    console.log(">> AJAX success");
-                  },
-                  error: function() {
-                    console.log(">> AJAX failure");
-                  }
+                console.log('photo-managers/views/home: openDialog callback invoked, err - ' + err + ', number of selected directories - ' + files.length);
+                files.each(function(file) {
+                  console.log('photo-managers/views/home: got dir. - ' + file);
                 });
-                // End of AJAX call
+                if (files.length === 1) {
+                  var dir = new String(files[0]);
+                  console.log('photo-managers/views/home: making request with dir - ' + dir + ', type of dir - ' + typeof(dir));
+                  var payload = JSON.stringify({
+                    "import_dir": files[0]
+                  });
+                  $.ajax({
+                    url: 'http://appjs/api/media-manager/v0/importers',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: payload,
+                    processData: false,
+                    success: function(data, textStatus, jqXHR) {
+                      console.log('photo-manager/views/home._doRender: import success, importer - ' + JSON.stringify(data));
+                    },
+                    error: function() {
+                      console.log('photo-manager/views/home._doRender: import request error!');
+                    }
+                  });
+                  // End of AJAX call
+                }
+                else {
+                  alert('In order to import images, one directory must be selected!');
+                }
 
               });
               // End of Open Save Dialog
