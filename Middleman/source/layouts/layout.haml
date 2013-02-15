@@ -1,0 +1,19 @@
+/
+  Built by The Varoqua Group
+  varoquagroup.com
+
+!!!
+%html
+  %head
+    %title
+      PPM
+    -# %link{:rel=>'stylesheet', :type=>'text/css', :href=>'/stylesheets/global.css'}
+    = stylesheet_link_tag "global"
+  %body
+    = yield
+
+    / Javascript goes at the bottom
+    -# %script{:type=>'text/javascript', :src=>'/javascripts/jquery-1.8.2.min.js'}
+    -# %script{:type=>'text/javascript', :src=>'/javascripts/global.js'}
+    -# = javascript_include_tag  "all"
+    = javascript_include_tag  "jquery-1.8.2.min", "global.js"
