@@ -353,7 +353,7 @@ h4 {
   margin-right: 20px;
   color: #beff1a;
   font-weight: normal;
-  background: url("/images/Small-Search.png") no-repeat 10px 3px #555555;
+  background: url("/imgs/Small-Search.png") no-repeat 10px 3px #555555;
 }
 
 /* line 254, global.sass */
@@ -563,7 +563,7 @@ h4 {
 }
 
 /* line 423, global.sass */
-#logo-only.rotate {
+#logo.rotate {
   -webkit-animation-name: rotate;
   -webkit-animation-duration: 2s;
   -webkit-animation-iteration-count: infinite;
@@ -571,7 +571,7 @@ h4 {
 }
 
 /* line 426, global.sass */
-#loading-text {
+#notifications {
   color: #ff8712;
   font-size: 11px;
   margin-top: -45px;

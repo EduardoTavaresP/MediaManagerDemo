@@ -103,29 +103,8 @@ define([
                                                                _: _ });
              this.$el.html(compiledTemplate);
 
-			        /*
-             $('#content-top-nav a.import').click(function(el) {
-               console.log('photo-manager/views/home: clicked import!');
-               var payload = JSON.stringify({
-                 "import_dir": "/Users/marekjulian/PLM/import"
-               });
-               $.ajax({url: 'http://appjs/api/media-manager/v0/importers',
-                       type: 'POST',
-                       contentType: 'application/json',
-                       data: payload,
-                       processData: false,
-                       success: function(data, textStatus, jqXHR) {
-                         console.log('photo-manager/views/home._doRender: import success, importer - ' + JSON.stringify(data));
-                       },
-                       error: function() {
-                         console.log('photo-manager/views/home._doRender: import request error!');
-                       }
-                      });
-             });
-			      */
-
             $("#upload-photos").live("click", function(el){
-				      console.log("Trying to upload images...")
+              console.log("Trying to upload images...")
               window.frame.openDialog({
                 type: 'open', // Either open or save
                 title: 'Open...', // Dialog title, default is window title
@@ -133,34 +112,27 @@ define([
                 dirSelect:true, // Directory selector
                 initialValue: '~/Pictures' // Initial save or open file name. Remember to escape backslashes.
               }, function( err , files ) {
-                console.log('photo-managers/views/home: openDialog callback invoked, err - ' + err + ', number of selected directories - ' + files.length);
-                files.each(function(file) {
-                  console.log('photo-managers/views/home: got dir. - ' + file);
+
+                var dir = new String(files[0]);
+                console.log(">> dir: " + dir);
+
+                $.ajax({
+                  url: 'http://appjs/api/media-manager/v0/importers',
+                  type: 'POST',
+                  // contentType: 'application/json',
+                  data: {
+                    // "import_dir": files[0]
+                    "import_dir": dir
+                  },
+                  // processData: false,
+                  success: function(data, textStatus, jqXHR) {
+                    console.log(">> AJAX success");
+                  },
+                  error: function() {
+                    console.log(">> AJAX failure");
+                  }
                 });
-                if (files.length === 1) {
-                  var dir = new String(files[0]);
-                  console.log('photo-managers/views/home: making request with dir - ' + dir + ', type of dir - ' + typeof(dir));
-                  var payload = JSON.stringify({
-                    "import_dir": files[0]
-                  });
-                  $.ajax({
-                    url: 'http://appjs/api/media-manager/v0/importers',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: payload,
-                    processData: false,
-                    success: function(data, textStatus, jqXHR) {
-                      console.log('photo-manager/views/home._doRender: import success, importer - ' + JSON.stringify(data));
-                    },
-                    error: function() {
-                      console.log('photo-manager/views/home._doRender: import request error!');
-                    }
-                  });
-                  // End of AJAX call
-                }
-                else {
-                  alert('In order to import images, one directory must be selected!');
-                }
+                // End of AJAX call
 
               });
               // End of Open Save Dialog
@@ -198,6 +170,7 @@ define([
                //
                this.lastImport = new LastImportCollection(null, {importer: importer});
                var compiledTemplate = _.template(homeTemplate, { lastImportImages: this.lastImport,
+
                                                                _: _ });
                this.$el.html(compiledTemplate);
                this.status = this.INCREMENTALLY_RENDERING;
@@ -284,27 +257,63 @@ define([
                console.log('photo-manager/views/home._respondToEvents: Subscribed to notification events');
              };
 
+             // Use this variable to keep track of the number of images imported
+             var current_imported_images_count = 0;
+             var total_images_to_import_count = 0;
+
              ws.onmessage = function(msg) {
                console.log('photo-manager/views/home._respondToEvents: ' + msg.data);
+
+               console.log('>> msg.data: ' + msg.data);
+
                var parsedMsg = JSON.parse(msg.data);
+
                if (isConnectionEstablished(parsedMsg)) {
                  doSubscriptions(ws);
                }
                else if (isImportStarted(parsedMsg)) {
+                console.log('>> parsedMsg.data: ' + parsedMsg.data);
                  console.log('photo-manager/views/home._respondToEvents: import started!');
+
                  $('#content-top-nav a.import').addClass('active');
                  PLM.showFlash('Media import started!');
+
+                 // Import started, rotate the logo
+                 console.log(">> Import started, trying to rotate logo");
+                 $("#logo").addClass("rotate");
+                 $("#notifications-collection").show();
+                 $("#notification").text("Now importing images");
+
+                 total_images_to_import_count = parsedMsg.data.num_to_import;
+
+                 $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+                 console.log(">> Number of files to import: " + parsedMsg.data.num_to_import);
+                 console.log(">> Current number of images imported: " + current_imported_images_count);
+
                  that._startIncrementalRender(parsedMsg.data);
                }
                else if (isImportImageSaved(parsedMsg)) {
+                 current_imported_images_count++;
+                 console.log(">> Current number of images imported: " + current_imported_images_count);
+                 $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+
                  console.log('photo-manager/views/home._respondToEvents: import image saved!');
                  that._addToIncrementalRender(parsedMsg.data.doc);
                }
                else if (isImportCompleted(parsedMsg)) {
                  console.log('photo-manager/views/home._respondToEvents: import completed!');
                  that._finishIncrementalRender();
+
                  PLM.showFlash('Media import completed!');
                  $('#content-top-nav a.import').removeClass('active');
+
+                 // Import started, rotate the logo
+                 console.log(">> Import ended, trying to stop logo rotation");
+                 $("#logo").removeClass("rotate");
+                 $("#notification").text("Finished importing images");
+                 // $("#notification-percentage").text("100%");
+                 $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+                 $('#notifications-collection').delay(5000).fadeOut();
                }
                else if (isSyncStarted(parsedMsg)) {
                  console.log('photo-manager/views/home._respondToEvents: sync started!');
