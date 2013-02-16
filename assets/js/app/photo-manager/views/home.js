@@ -287,6 +287,7 @@ define([
                  total_images_to_import_count = parsedMsg.data.num_to_import;
 
                  $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+                 $("#num-images-imported").text(current_imported_images_count);
                  console.log(">> Number of files to import: " + parsedMsg.data.num_to_import);
                  console.log(">> Current number of images imported: " + current_imported_images_count);
 
@@ -296,6 +297,7 @@ define([
                  current_imported_images_count++;
                  console.log(">> Current number of images imported: " + current_imported_images_count);
                  $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+                 $("#num-images-imported").text(current_imported_images_count);
 
                  console.log('photo-manager/views/home._respondToEvents: import image saved!');
                  that._addToIncrementalRender(parsedMsg.data.doc);
