@@ -1,17 +1,17 @@
 //
 // Filename: photo-manager/views/home.js
 //
-var WebSocket = require('MediaManagerApi/lib/NotificationsWsLike');
 
 define(
   [
     'jquery',
     'underscore',
     'backbone',
+    'plm/msg-bus',
     'app/views/home/library/last-import',
     'app/views/home/library/all-photos'
   ],
-  function($, _, Backbone, LastImportView, AllPhotosView) {
+  function($, _, Backbone, MsgBus, LastImportView, AllPhotosView) {
 
     var ws = undefined;
 
@@ -57,6 +57,9 @@ define(
         this.path = options.path;
         console.log(this.id + '.HomeView.initialize: path - ' + this.path);
         this.contentView = new LastImportView();
+        this._enableImport();
+        this._enableSync();
+        this._respondToEvents();
       },
 
       render: function() {
@@ -127,169 +130,79 @@ define(
       },
 
       //
-      // _startIncrementalRender: Initialize the view to a new importer which will be incrementally rendered.
-      //
-      _startIncrementalRender: function(importer) {
-        if ((this.status === this.STATUS_UNRENDERED) || (this.status === this.STATUS_RENDERED)) {
-          //
-          // Initialize with the new importer, but the collection will be empty.
-          //
-          this.lastImport = new LastImportCollection(null, {importer: importer});
-          var compiledTemplate = _.template(homeTemplate, { lastImportImages: this.lastImport,
-                                                               _: _ });
-          this.$el.html(compiledTemplate);
-          this.status = this.INCREMENTALLY_RENDERING;
-        }
-      },
-
-      //
-      // _addToIncrementalRender: Add an image to a view which is being incrementally rendered.
-      //
-      _addToIncrementalRender: function(image) {
-        if (!this.lastImport.get(image.id)) {
-          console.log('photo-manager/views/home._addToIncrementalRender: adding image w/ id - ' + image.id + ', to view.');
-          //
-          // Add to the collection.
-          //
-          var imageModel = new ImageModel(image);
-          this.lastImport.add(imageModel);
-          //
-          // Also add the image to the view.
-          //
-          var compiledTemplate = _.template(lastImportImageTemplate, { image: imageModel });
-          $('.photos-collection').append(compiledTemplate);
-        }
-      },
-
-      //
-      // _finishIncrementalRender: Incremental rendering of the view should be complete.
-      //
-      //  Currently, only change status to STATUS_RENDERED.
-      //
-      _finishIncrementalRender: function() {
-        if (this.status === this.STATUS_INCREMENTALLY_RENDERING) {
-          this.status = this.STATUS_RENDERED;
-        }
-      },
-
-      //
-      // _respondToEvents: Opens a WS and listens to messages, adjusting the view as necessary.
+      // _respondToEvents: Subscribe, and respond to relevant events on the msg-bus.
       //
       _respondToEvents: function() {
-        console.log('photo-manager/views/home_.respondToEvents: Creating web-socket...');
-        var that = this;
-        ws = new WebSocket('ws://appjs/notifications');
-
-        function isConnectionEstablished(parsedMsg) {
-          return (parsedMsg.resource === '/notifications' && parsedMsg.event === 'connection.established');
-        };
-
-        function isImportStarted(parsedMsg) {
-          return (parsedMsg.resource === '/importers' && parsedMsg.event === 'import.started');
-        };
-
-        function isImportImageSaved(parsedMsg) {
-          return (parsedMsg.resource === '/importers' && parsedMsg.event === 'import.image.saved');
-        };
-
-        function isImportCompleted(parsedMsg) {
-          return (parsedMsg.resource === '/importers' && parsedMsg.event === 'import.completed');
-        };
-        
-        function isSyncStarted(parsedMsg) {
-          return (parsedMsg.resource === '/storage/synchronizers' && parsedMsg.event === 'sync.started');
-        };
-
-        function isSyncCompleted(parsedMsg) {
-          return (parsedMsg.resource === '/storage/synchronizers' && parsedMsg.event === 'sync.completed');
-        };
-
-        function doSubscriptions(ws) {
-          console.log('photo-manager/views/home._respondToEvents: Subscribing to notification events');
-          ws.send(JSON.stringify({
-            "resource": "_client",
-            "event": "subscribe",
-            "data": {
-              "resource": "/storage/synchronizers"
-            }}));
-          ws.send(JSON.stringify({
-            "resource": "_client",
-            "event": "subscribe",
-            "data": {
-              "resource": "/importers"
-            }}));
-          console.log('photo-manager/views/home._respondToEvents: Subscribed to notification events');
-        };
         
         // Use this variable to keep track of the number of images imported
         var current_imported_images_count = 0;
         var total_images_to_import_count = 0;
-        
-        ws.onmessage = function(msg) {
-          console.log('photo-manager/views/home._respondToEvents: ' + msg.data);
-          
-          console.log('>> msg.data: ' + msg.data);
-          
-          var parsedMsg = JSON.parse(msg.data);
 
-          if (isConnectionEstablished(parsedMsg)) {
-            doSubscriptions(ws);
-          }
-          else if (isImportStarted(parsedMsg)) {
-            console.log('>> parsedMsg.data: ' + parsedMsg.data);
-            console.log('photo-manager/views/home._respondToEvents: import started!');
+        MsgBus.subscribe('_notif-api:' + '/importers',
+                         'import.started',
+                         function(msg) {
+                           console.log('photo-manager/views/home._respondToEvents: import started, msg.data - ' + msg.data);
 
-            $('#content-top-nav a.import').addClass('active');
-            PLM.showFlash('Media import started!');
+                           $('#content-top-nav a.import').addClass('active');
+                           PLM.showFlash('Media import started!');
             
-            // Import started, rotate the logo
-            console.log(">> Import started, trying to rotate logo");
-            $("#logo").addClass("rotate");
-            $("#notifications-collection").show();
-            $("#notification").text("Now importing images");
+                           // Import started, rotate the logo
+                           console.log(">> Import started, trying to rotate logo");
+                           $("#logo").addClass("rotate");
+                           $("#notifications-collection").show();
+                           $("#notification").text("Now importing images");
             
-            total_images_to_import_count = parsedMsg.data.num_to_import;
+                           total_images_to_import_count = msg.data.num_to_import;
             
-            $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
-            console.log(">> Number of files to import: " + parsedMsg.data.num_to_import);
-            console.log(">> Current number of images imported: " + current_imported_images_count);
+                           $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+                           $("#num-images-imported").text(current_imported_images_count);
+                           console.log(">> Number of files to import: " + msg.data.num_to_import);
+                           console.log(">> Current number of images imported: " + current_imported_images_count);
+                         });
 
-            // that._startIncrementalRender(parsedMsg.data);
-          }
-          else if (isImportImageSaved(parsedMsg)) {
-            current_imported_images_count++;
-            console.log(">> Current number of images imported: " + current_imported_images_count);
-            $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
-            
-            console.log('photo-manager/views/home._respondToEvents: import image saved!');
-            // that._addToIncrementalRender(parsedMsg.data.doc);
-          }
-          else if (isImportCompleted(parsedMsg)) {
-            console.log('photo-manager/views/home._respondToEvents: import completed!');
-            // that._finishIncrementalRender();
+        MsgBus.subscribe('_notif-api:' + '/importers',
+                         'import.image.saved',
+                         function(msg) {
+                           current_imported_images_count++;
+                           console.log(">> Current number of images imported: " + current_imported_images_count);
+                           $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+                           $("#num-images-imported").text(current_imported_images_count);
 
-            PLM.showFlash('Media import completed!');
-            $('#content-top-nav a.import').removeClass('active');
+                           console.log('photo-manager/views/home._respondToEvents: import image saved!');
+                         });
 
-            // Import started, rotate the logo
-            console.log(">> Import ended, trying to stop logo rotation");
-            $("#logo").removeClass("rotate");
-            $("#notification").text("Finished importing images");
-            // $("#notification-percentage").text("100%");
-            $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
-            $('#notifications-collection').delay(5000).fadeOut();
-          }
-          else if (isSyncStarted(parsedMsg)) {
-            console.log('photo-manager/views/home._respondToEvents: sync started!');
-            $('#content-top-nav a.sync').addClass('active');
-            PLM.showFlash('Media sync started!');
-          }
-          else if (isSyncCompleted(parsedMsg)) {
-            console.log('photo-manager/views/home._respondToEvents: sync completed!');
-            PLM.showFlash('Media sync completed!');
-            $('#content-top-nav a.sync').removeClass('active');
-          }
-        };
+        MsgBus.subscribe('_notif-api:' + '/importers',
+                         'import.completed',
+                         function(msg) {
+                           console.log('photo-manager/views/home._respondToEvents: import completed!');
+
+                           PLM.showFlash('Media import completed!');
+                           $('#content-top-nav a.import').removeClass('active');
+
+                           // Import started, rotate the logo
+                           console.log(">> Import ended, trying to stop logo rotation");
+                           $("#logo").removeClass("rotate");
+                           $("#notification").text("Finished importing images");
+                           // $("#notification-percentage").text("100%");
+                           $("#notification-percentage").text(current_imported_images_count + "/" + total_images_to_import_count);
+                           $('#notifications-collection').delay(5000).fadeOut();
+                         });
+
+        MsgBus.subscribe('_notif-api:' + '/storage/synchronizers',
+                         'sync.started',
+                         function(msg) {
+                           console.log('photo-manager/views/home._respondToEvents: sync started!');
+                           $('#content-top-nav a.sync').addClass('active');
+                           PLM.showFlash('Media sync started!');
+                         });
+
+        MsgBus.subscribe('_notif-api:' + '/storage/synchronizers',
+                         'sync.completed',
+                         function(msg) {
+                           console.log('photo-manager/views/home._respondToEvents: sync completed!');
+                           PLM.showFlash('Media sync completed!');
+                           $('#content-top-nav a.sync').removeClass('active');
+                         });
       }
 
     });

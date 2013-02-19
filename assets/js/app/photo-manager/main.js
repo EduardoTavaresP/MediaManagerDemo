@@ -39,7 +39,9 @@ addEventListener('app-ready', function(e){
       jquery: 'jquery/jquery.min',
       underscore: 'underscore/underscore',
       backbone: 'backbone/backbone',
+      postal: 'postal/postal',
       foundationClearing: 'foundation/jquery.foundation.clearing',
+      plm: '../app',
       app: '../app/photo-manager'
     },
     //
