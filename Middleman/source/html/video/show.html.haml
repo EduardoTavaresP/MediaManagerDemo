@@ -1,5 +1,5 @@
 ---
-ignored: true
+ignore: true
 ---
 %section#wrapper
 
@@ -85,12 +85,84 @@ ignored: true
           %a{:href => '#'}
             %img{:src => '/imgs/Settings.png'}
 
-    %div#left-column
-      %h3
+    %div#left-column.surveillance
+      -# Cameras
+
+      %div#surveillance-sidebar
+        %div#surveillance-collection
+
+          %div.surveillance-medium-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/srl_bar_axis/stream", :class => "surveillance-medium"}
+            %div.surveillance-thumb-overlay
+              SRL Bar
+
+          %div.surveillance-medium-thumb-title
+            SRL Bar
+
+          %hr
+
+        %div#surveillance-thumbs-collection
+
+          -# %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/92_front_yard_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              Front Yard
+
+          -# %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/srl_pool_entrance_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              SRL Pool Entrance
+
+          -# %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/si2_roof_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              Shelter Island Roof
+
+          -# %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/si2_driveway_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              Shelter Island Driveway
+
+          -# %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/srl_parking_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              SRL Parking
+
+          -# %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/lm_rack_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              LM Rack
+
+          %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/si2_front_entrance_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              SI Front Entrance
+
+          %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/boca_dock_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              Boca Dock Ent
+
+          %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/srl_main_entrance_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              SRL Main Ent
+
+          %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/boca_dock_ptz_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              Boca Dock
+
+          %div.surveillance-small-thumb
+            %img{:style => "-webkit-user-select: none; cursor: -webkit-zoom-in;", :src => "http://core2.jetsonsys.com:10080/data/srl_bar_axis/stream", :class => "surveillance-small"}
+            %div.surveillance-small-thumb-overlay
+              SRL Bar
+
+      -# %h3
         European Properties(8)
         %img{:src => '/imgs/White-Arrow-Circle-Down.png'}
 
-      %ul
+      -# %ul
         %li
           %a{:href => '#'}
             %img{:src => '/imgs/All-Photos-Blue.png'}
@@ -108,13 +180,13 @@ ignored: true
             %img{:src => '/imgs/Library-Trash.png'}
             Trash
 
-      %h3
+      -# %h3
         Colorado Properties (8)
         %img{:src => '/imgs/White-Arrow-Circle-Down.png'}
 
-      %hr
+      -# %hr
 
-      %ul#galleries-list
+      -# %ul#galleries-list
         %li
           %a{:href => '#'}
             %img{:src => '/imgs/Gallery.png', :class => 'gallery-icon'}

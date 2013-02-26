@@ -84,4 +84,3 @@ addEventListener('app-ready', function(e){
 if (window.hasOwnProperty('appReady') && window.hasOwnProperty('processedAppReady') && (processedAppReady === false)) {
   dispatchEvent(new Event('app-ready'));
 }
-;

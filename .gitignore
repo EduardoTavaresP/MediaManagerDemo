@@ -3,9 +3,11 @@ bin
 config/runtime.json
 node_modules
 src/assets-compass/.sass-cache
+Middleman/Gemfile.lock
 Middleman/.sass-cache
 MediaManagerTouchServer.app/
-var/run/*
+var/run*
+var/log*
 .DS_Store
 *~
 

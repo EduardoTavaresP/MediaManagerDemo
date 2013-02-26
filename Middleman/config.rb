@@ -12,6 +12,19 @@ compass_config do |config|
   config.relative_assets = true
 end
 
+#
+# ignores:
+#
+#   bootstrap.js - just here as a template when creating main.js for an app, ie:
+#     /js/app/photo-manager/main.js
+#
+ignore '/js/app/bootstrap.js'
+#
+#   boilerplate.js - this is a template for an app's app.js, ie:
+#     /js/app/photo-manager/app.js
+#
+ignore '/js/app/boilerplate.js'
+
 # ----------------------
 # Page Routing Options
 
@@ -32,6 +45,11 @@ end
 # page "/this-page-has-no-template.html", :proxy => "/template-file.html" do
 #   @which_fake_page = "Rendering a fake page with a variable"
 # end
+
+#
+# All our templates which should NOT have a layout.
+#
+page "/html/photo-manager/templates/*", :layout => false
 
 # ----------------------
 # Helpers

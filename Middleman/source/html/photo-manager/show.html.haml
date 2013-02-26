@@ -1,6 +1,9 @@
----
-ignored: true
----
+- content_for :page_name do
+  = "Photo Manager"
+- content_for :view_name do
+  = "photo-manager"
+- content_for :action_name do
+  = "show"
 %section#wrapper
 
   %h1#logo
@@ -13,7 +16,7 @@ ignored: true
           %img{:src => '/imgs/Four-Box.png'}
       %li
         %a{:href => '#'}
-          %img{:src => '/imgs/Lighting-Blue.png'}
+          %img{:src => '/imgs/Camera-Blue.png'}
       %li
         %a{:href => '#'}
           %img{:src => '/imgs/Folders.png'}
@@ -87,7 +90,7 @@ ignored: true
 
     %div#left-column
       %h3
-        European Properties(8)
+        Library
         %img{:src => '/imgs/White-Arrow-Circle-Down.png'}
 
       %ul
@@ -109,7 +112,7 @@ ignored: true
             Trash
 
       %h3
-        Colorado Properties (8)
+        Galleries
         %img{:src => '/imgs/White-Arrow-Circle-Down.png'}
 
       %hr
@@ -132,32 +135,11 @@ ignored: true
               %img{:src => '/imgs/Gray-Circle-Down.png', :class => 'gray-circle'}
 
       // Search
-      -# %div#search-collection
+      %div#search-collection
         %hr
           %input{:type => 'text', :id => 'search-box'}
 
     %div#right-column
-
-      %div#floor-level-buttons
-        %img{:src => '/imgs/Floor-Level-Buttons.png'}
-
-      %div#floorplan
-        %img{:src => '/imgs/Boca-Grande-Main-Floorplan.png'}
-
-      %div#courtyard.lighting-load
-        %div.lighting-label
-          Courtyard
-        %img{:src => '/imgs/Bulb-Gray.png', :id => 'courtyard-lightbulb'}
-
-      %div#living-room.lighting-load
-        %div.lighting-label
-          Living Room
-        %img{:src => '/imgs/Bulb-Gray.png', :id => 'living-room-lightbulb'}
-
-      %div#kitchen.lighting-load
-        %div.lighting-label
-          Kitchen
-        %img{:src => '/imgs/Bulb-Gray.png', :id => 'kitchen-lightbulb'}
 
   %footer#footer
     -# Footer
