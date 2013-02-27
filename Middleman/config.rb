@@ -133,4 +133,4 @@ end
 # ----------------------
 # HAML Options:
 # set :haml, { :format => :html5, :ugly => true }
-set :haml, { :format => :html5, :ugly => false }
+set :haml, { :format => :html5, :ugly => false, :escape_html => false }

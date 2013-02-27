@@ -6,6 +6,8 @@
  * plm: The PLM module. It provides the following functionality:
  *
  *  - Performs some initialization of the global navigation elements.
+ *  - Initialize underscore templating S.T. they use mustache style
+ *    interpolation. See the comments below.
  *  - Exposes some common functionality such as:
  *
  *    - showFlash: Show a flash message.
@@ -16,12 +18,32 @@
  */
 define(
   [
-    'jquery'
+    'jquery',
+    'underscore'
   ],
-  function($) {
+  function($, _) {
+    console.log('/js/app/common/plm: Loading, typeof $ - ' + typeof($));
+
     var PLM = {};
 
     PLM.VERSION = '0.1';
+
+    PLM.debug = true;
+
+    //
+    //  IMPORTANT: We use underscore templates w/ moustache style
+    //  interpolation. See: https://github.com/janl/mustache.js#readme
+    //  See the underscore note here: http://underscorejs.org/#template
+    //  This allows us to interpolate in an attribute, ie:
+    //    %img{ :src => {{ imageUrl }} }
+    //  whereas,
+    //    %img{ :src => <%= imageUrl %> }
+    //  would escape the <%= and the interpolation would fail.
+    //
+    _.templateSettings = {
+      interpolate : /\{\{(.+?)\}\}/g,
+      evaluate : /\{\%(.+?)\%\}/g
+    };
 
     if ($('div.flash-notice').length) {
       $('div.flash-notice').hide();

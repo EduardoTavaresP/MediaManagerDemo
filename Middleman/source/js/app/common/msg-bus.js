@@ -59,15 +59,14 @@
 //
 var WebSocket = require('MediaManagerApi/lib/NotificationsWsLike');
 
-console.log('Loading - /js/app/common/msg-bus.js');
+console.log('/js/app/common/msg-bus: Running...');
 
 define(
   [
     'postal'
   ],
   function(postal) {
-
-    console.log('Initializing - /js/app/common/msg-bus.js');
+    console.log('/js/app/common/msg-bus: Loading, typeof postal - ' + typeof(postal));
 
     var msgBus = undefined;
 

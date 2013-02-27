@@ -2,21 +2,21 @@
 //
 // photo-manager app modulie.
 //
+
 define(
   [
     'jquery', 
     'underscore', 
     'backbone', 
+    'plmCommon/plm',
     'plmCommon/msg-bus', 
     'app/router'
   ],
-  function($, _, Backbone, MsgBus, Router) {
-    console.log('Loading - /js/app/photo-manager/app.js');
+  function($, _, Backbone, Plm, MsgBus, Router) {
+    !Plm.debug || console.log('/js/app/photo-manager/app: Loading, typeof MsgBus - ' + typeof(MsgBus) + ', typeof Router - ' + typeof(Router));
+
     var initialize = function() {
-      console.log('Initializing - /js/app/photo-manager/app.js');
-      if ($('#content').hasClass('photo-manager/show')) {
-        console.log('We\'re able to verify our view w/ jQuery which is loaded globally.');
-      }
+      !Plm.debug || console.log('/js/app/photo-manager/app: Initializing...');
 
       //
       // MsgBus:

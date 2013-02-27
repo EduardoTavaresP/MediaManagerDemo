@@ -54,10 +54,6 @@ addEventListener('app-ready', function(e){
       backbone: {
         deps: ["underscore", "jquery"],
         exports: "Backbone"
-      },
-      postal: {
-        deps: ["underscore"],
-        exports: "postal"
       }
     }
   });
@@ -71,7 +67,7 @@ addEventListener('app-ready', function(e){
   requirejs(['plmCommon/plm', 
              'app/app'],
             function(Plm, App) {
-              console.log('Invoking app, typeof is - ' + typeof(App));
+              !Plm.debug || console.log('/js/app/photo-manager/main: Loading, typeof Plm - ' + typeof(Plm) + ', typeof is - ' + typeof(App));
               App.initialize();
             });
 });
